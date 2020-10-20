@@ -1,10 +1,14 @@
 import Colecoes.ListaEntregas;
 import Colecoes.ListaMoradores;
 import Colecoes.ListaOperadores;
+import Entities.Morador;
+
 import java.util.Scanner;
 
 public class App {
     public static void main(String[] args){
+        Scanner input = new Scanner(System.in);
+        Scanner inputString = new Scanner(System.in);
 
         ListaOperadores Operadores = new ListaOperadores();
         ListaMoradores  Moradores  = new ListaMoradores();
@@ -23,7 +27,6 @@ public class App {
             System.out.println("8 - Procurar entrega pela descricao");
             System.out.println("9 - Gerar relatorio");
             System.out.println("0 - Sair");
-            Scanner input = new Scanner(System.in);
             escolha = input.nextInt();
             switch (escolha){
                 case 1:
@@ -33,6 +36,20 @@ public class App {
                 case 3:
                     break;
                 case 4:
+                        System.out.print("\nNome do novo morador: ");
+                        String nome = inputString.nextLine();
+                        String rg = null;
+                        do {
+                            System.out.print("\nNumero Registro Geral: ");
+                            rg = inputString.nextLine();
+                        } while (rg.length()!=10);
+                        System.out.print("\nNumero apartamento: ");
+                        String ape = inputString.nextLine();
+
+                        Morador newMorador = new Morador(rg, nome, ape);
+                        Moradores.addMorador(newMorador);
+
+                        System.out.println(Moradores.toString());
                     break;
                 case 5:
                     break;

@@ -42,8 +42,8 @@ public class Morador {
     }
 
     public void setApto(String apto) {
-        if(!nome.isBlank() && !nome.isEmpty()) {
+       // if(!nome.isBlank() && !nome.isEmpty()) {
             this.apto = apto;
-        }
+        //}
     }
 }
