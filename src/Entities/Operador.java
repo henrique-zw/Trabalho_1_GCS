@@ -13,15 +13,8 @@ public class Operador {
     }
 
     public void setNome(String nome) {
-        if(nome != null && !nome.isBlank() && !nome.trim().isEmpty()){
-            if(nome.matches("^[a-zA-Z\\s]+$")){
-                String[] sNome = nome.trim().split(" ");
-                if(sNome.length >= 2){
-                    this.nome = nome;
-                    this.iniciais = (sNome[0].substring(1)).concat(sNome[1].substring(1));
-                }
-            }
-        }
+        this.nome = nome;
+        setIniciais(nome);
     }
 
     public String getIniciais() {
@@ -29,4 +22,16 @@ public class Operador {
     }
 
     //TODO: CRIAR MÉTODOS NECESSÁRIOS
+    public void setIniciais(String nome){
+        if(nome != null){
+            String aux = "";
+            String[] nomes = getNome().split(" ");
+            char inicial;
+            for (int i = 0; i < nomes.length; i++){
+                inicial = nomes[i].charAt(0);
+                aux += inicial;
+            }
+            this.iniciais = aux;
+        }
+    }
 }

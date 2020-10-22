@@ -1,6 +1,8 @@
 import Colecoes.ListaEntregas;
 import Colecoes.ListaMoradores;
 import Colecoes.ListaOperadores;
+import Entities.Operador;
+
 import java.util.Scanner;
 
 public class App {
@@ -9,9 +11,18 @@ public class App {
         ListaOperadores Operadores = new ListaOperadores();
         ListaMoradores  Moradores  = new ListaMoradores();
         ListaEntregas   Entregas   = new ListaEntregas();
+        //populando...
+        Operador operador0 = new Operador("David Gilmour");
+        Operador operador1 = new Operador("Maria Silva Oliveira");
+        Operador operador2 = new Operador("Robert Plant");
+        Operadores.addOperador(operador0);
+        Operadores.addOperador(operador1);
+
+        Operador operadorAtual;
         int escolha = 0;
+        Operador atual;
+        String aux;
         do{
-            System.out.println("Sistema de entregas em condominio");
             System.out.println("Escolha um numero");
             System.out.println("1 - Escolher operador");
             System.out.println("2 - Inserir novo operador");
@@ -27,6 +38,11 @@ public class App {
             escolha = input.nextInt();
             switch (escolha){
                 case 1:
+                    Scanner input1 = new Scanner(System.in);
+                    System.out.println("Entre com as iniciais do operador");
+                    aux = input1.nextLine();
+                    operadorAtual = Operadores.getOperador(aux);
+                    System.out.println("Operador selecionado: " + operadorAtual.getNome());
                     break;
                 case 2:
                     break;
