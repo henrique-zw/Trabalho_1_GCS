@@ -90,8 +90,7 @@ public class App {
 
                     System.out.println("Informe uma breve descrição da Entrega");
                     String descTemp = "";
-                    descTemp = in.nextLine();
-                    descTemp = in.nextLine();
+                    descTemp = in.next();
 
 
                     System.out.println("Informe a Data da Entrega (dd/MM/yyyy)");
@@ -133,10 +132,8 @@ public class App {
 
                     break;
 
-                case 8:     // LSITAR ENTREGAS NAO RETIRADAS
-                    System.out.println("PRECISA SER FEITO!");
-
-
+                case 8:     // LISTAR ENTREGAS NAO RETIRADAS
+                    
 
                     listaEntregasNaoColetadas(Entregas);
 
