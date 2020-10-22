@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListaOperadores {
-    private final List<Operador> listaOperadores;
+    private List<Operador> listaOperadores;
 
     public ListaOperadores() {
         this.listaOperadores = new ArrayList<>();

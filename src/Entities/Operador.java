@@ -13,7 +13,7 @@ public class Operador {
     }
 
     public void setNome(String nome) {
-        if(nome != null && !nome.isBlank() && !nome.trim().isEmpty()){
+        if(nome != null && !nome.isEmpty() && !nome.trim().isEmpty()){
             if(nome.matches("^[a-zA-Z\\s]+$")){
                 String[] sNome = nome.trim().split(" ");
                 if(sNome.length >= 2){

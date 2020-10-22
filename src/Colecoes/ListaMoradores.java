@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListaMoradores {
-    private final List<Morador> listaMoradores;
+    private List<Morador> listaMoradores;
 
     public ListaMoradores() {
         this.listaMoradores = new ArrayList<>();

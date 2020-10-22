@@ -3,6 +3,7 @@ package Entities;
 import java.util.Date;
 
 public class Entrega {
+    private static int count;
     private int id;
     private Operador operador;
     private Morador morador;
@@ -11,8 +12,8 @@ public class Entrega {
     private Date dataRecebimento;
     private Date dataRetirada;
 
-    public Entrega(int id, Operador operador, String apto, String descricao, Date dataRecebimento) {
-        setId(id);
+    public Entrega(Operador operador, String apto, String descricao, Date dataRecebimento) {
+        setId(count++);
         setOperador(operador);
         setApto(apto);
         setDescricao(descricao);
@@ -62,7 +63,7 @@ public class Entrega {
     }
 
     public void setDescricao(String descricao) {
-        if(descricao != null && !descricao.isBlank() && !descricao.isEmpty()) {
+        if(descricao != null && !descricao.isEmpty()) {
             if(descricao.length() >= 10){
                 this.descricao = descricao;
             }
@@ -87,5 +88,20 @@ public class Entrega {
         if(dataRecebimento != null) {
             this.dataRetirada = dataRetirada;
         }
+    }
+
+
+    @Override
+    public String toString() {
+        String s = new String();
+
+        s += "\nApto: "+this.getApto();
+        s += "\nID: "+this.getId();
+        s += "\nDESCRICAO: "+this.getDescricao();
+        s += "\nDATA RECEBIMENTO: "+this.getDataRecebimento();
+        s += "\nOPERADOR: "+this.getOperador().getIniciais();
+        //s += "\nDATA RETIRADA: "+this.getDataRetirada();
+
+        return s;
     }
 }
