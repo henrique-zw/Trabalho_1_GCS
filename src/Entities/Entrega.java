@@ -59,15 +59,20 @@ public class Entrega {
     }
 
     public String getDescricao() {
-        return descricao;
+        return this.descricao;
     }
 
+
+
     public void setDescricao(String descricao) {
+
+
         if(descricao != null && !descricao.isEmpty()) {
-            if(descricao.length() >= 10){
+
                 this.descricao = descricao;
-            }
+
         }
+
     }
 
     public Date getDataRecebimento() {
@@ -95,11 +100,11 @@ public class Entrega {
     public String toString() {
         String s = new String();
 
-        s += "\nApto: "+this.getApto();
-        s += "\nID: "+this.getId();
-        s += "\nDESCRICAO: "+this.getDescricao();
-        s += "\nDATA RECEBIMENTO: "+this.getDataRecebimento();
-        s += "\nOPERADOR: "+this.getOperador().getIniciais();
+        s += "\nApto: "+ this.getApto();
+        s += "\nID: "+ this.getId();
+        s += "\nDESCRICAO: "+ this.getDescricao();
+        s += "\nDATA RECEBIMENTO: "+ this.getDataRecebimento();
+        s += "\nOPERADOR: "+ this.getOperador().getIniciais();
         //s += "\nDATA RETIRADA: "+this.getDataRetirada();
 
         return s;
