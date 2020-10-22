@@ -133,9 +133,7 @@ public class App {
                     break;
 
                 case 8:     // LISTAR ENTREGAS NAO RETIRADAS
-                    System.out.println("PRECISA SER FEITO!");
-
-
+                    
 
                     listaEntregasNaoColetadas(Entregas);
 

@@ -104,7 +104,7 @@ public class Entrega {
         s += "\nID: "+ this.getId();
         s += "\nDESCRICAO: "+ this.getDescricao();
         s += "\nDATA RECEBIMENTO: "+ this.getDataRecebimento();
-        s += "\nOPERADOR: "+ this.getOperador().getIniciais();
+        s += "\nOPERADOR: "+ this.getOperador().getNome();
         //s += "\nDATA RETIRADA: "+this.getDataRetirada();
 
         return s;
