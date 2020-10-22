@@ -15,8 +15,13 @@ public class App {
         Operador operador0 = new Operador("David Gilmour");
         Operador operador1 = new Operador("Maria Silva Oliveira");
         Operador operador2 = new Operador("Robert Plant");
+        Operador operador3 = new Operador("James Brown");
+        Operador operador4 = new Operador("Kiko Loureiro");
         Operadores.addOperador(operador0);
         Operadores.addOperador(operador1);
+        Operadores.addOperador(operador2);
+        Operadores.addOperador(operador3);
+        Operadores.addOperador(operador4);
 
         Operador operadorAtual;
         int escolha = 0;
