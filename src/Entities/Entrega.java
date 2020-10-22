@@ -62,7 +62,7 @@ public class Entrega {
     }
 
     public void setDescricao(String descricao) {
-        if(descricao != null && !descricao.isBlank() && !descricao.isEmpty()) {
+        if(descricao != null && !descricao.isEmpty() && !descricao.isEmpty()) {
             if(descricao.length() >= 10){
                 this.descricao = descricao;
             }
