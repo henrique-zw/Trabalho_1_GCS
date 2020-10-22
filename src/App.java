@@ -129,7 +129,17 @@ public class App {
                     break;
 
                 case 7:     // PROCURAR ENTREGA VIA DESCRICAO
-                    System.out.println("PRECISA SER FEITO!");
+
+                    /**
+                     * ESSE METODO NÂO FOI TESTADO AINDA.
+                     * */
+
+                    //System.out.println("Iniciando isso aqui: ");
+
+                    System.out.println("Informe a descrição da entrega que deseja encontrar: ");
+                    String desc = in.next();
+
+                    Entregas.procuraEntregaPorDescrição(desc);
 
                     break;
 

@@ -80,6 +80,46 @@ public class ListaEntregas {
 
     }
 
+    //TODO: ENCONTRA NAS DUAS LISTAS DE ENTREGAS A ENTREGA COM A DESCRIÇÂO PASSADA POR PARAMETRO NO METODO.x
+    public void procuraEntregaPorDescrição (String descAlvo) {
+
+        //Flag vai dizer se foi encontrado o elemento com a descrição desejada.
+        // Se esta verdadeira, o Elemento não foi encontrado.
+        // Se esta falsa, o Elemento foi encontrado.
+        boolean flag = true;
+
+        ArrayList<Entrega> entregas = new ArrayList<>();
+
+        /**
+         * Verficação necessária: Se a lista entregas estiver vazia.
+         * */
+
+        //Adiciona os elementos das Entregas da lista de não retiradas em uma lista unica para verificação depois.
+        for (int i = 0; i< listaEntregasNaoRetiradas.size();i++){
+            entregas.add(listaEntregasNaoRetiradas.get(i));
+        }
+
+        //Adiciona os elementos das Entregas da lista de retiradas em uma lista unica para verificação depois.
+        for (int i=0; i<listaEntregasRetiradas.size(); i++){
+            entregas.add(listaEntregasRetiradas.get(i));
+        }
+
+        //Metodo realizado:
+        if(!entregas.isEmpty()){
+            for (int i = 0; i< entregas.size(); i++){
+                if(entregas.get(i).getDescricao().contains(descAlvo)){
+                    System.out.println("Entregas encontradas com esta descrição: ");
+                    System.out.println(entregas.get(i));
+                    flag = false;
+                }
+            }
+        }
+
+        if(flag){
+            System.out.println("Nada foi localizado com essa descrição. ");
+        }
+    }
+
 
     //TODO: CRIAR UMA CLASSE UTIL COM MÉTODOS PARA TRABALHAR COM DATE
     public String getRelatorio(Date dataInicial, Date dataFinal){
