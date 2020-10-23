@@ -1,46 +1,36 @@
 package Colecoes;
 
 import Entities.Entrega;
-import Entities.Morador;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class ListaEntregas {
-    private List<Entrega> listaEntregasNaoRetiradas;
-    private List<Entrega> listaEntregasRetiradas;
-    private int count;
+
+    private List<Entrega> listaEntregas;
 
     public ListaEntregas() {
-        this.listaEntregasNaoRetiradas = new ArrayList<>();
-        this.count = 1;
+        this.listaEntregas = new ArrayList<>();
     }
 
     public void addEntrega(Entrega entrega){
-        //entrega.setId(count);
-        listaEntregasNaoRetiradas.add(entrega);
-        count++;
+        listaEntregas.add(entrega);
     }
 
-    public int getSizeNaoRetiradas(){
-        return listaEntregasNaoRetiradas.size();
-    }
-
-    public Entrega getEntrega(int id){
-        Entrega eAux = null;
-        for (Entrega en: listaEntregasNaoRetiradas) {
-            if(en.getId() == id){
-                eAux = en;
-            }
+    public Entrega getEntrega(int id) {
+        for (Entrega en: listaEntregas) {
+            if (en.getId() == id) return en;
         }
-        return eAux;
+        return null;
     }
 
     public List<Entrega> getEntregas(String descricao){
         List<Entrega> subList = new ArrayList<>();
-        for (Entrega en: listaEntregasNaoRetiradas) {
+        for (Entrega en: listaEntregas) {
             if(en.getDescricao().contains(descricao)){
                 subList.add(en);
             }
@@ -48,45 +38,22 @@ public class ListaEntregas {
         return subList;
     }
 
-    //TODO: VERIFICAR PORQUE NULL É SEMPRE FALSO
-
     public List<Entrega> getNaoRetiradas(){
-
-        return listaEntregasNaoRetiradas;
-
+        Predicate<Entrega> naoRetiradas = entrega -> !entrega.foiRetirada();
+        return listaEntregas.stream().filter(naoRetiradas).collect(Collectors.toList());
     }
 
-    public void retiraPacote(int id){
-
-        Entrega eAux = null;
-
-        for (int i=0;i<= listaEntregasNaoRetiradas.size();i++){
-
-            if(listaEntregasNaoRetiradas.get(i).getId() == id){
-
-                listaEntregasRetiradas.add(listaEntregasNaoRetiradas.get(i));
-
-
-                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                Date date = new Date();
-                System.out.println(formatter.format(date));
-
-
-                listaEntregasNaoRetiradas.remove(i);
-
-            }
-
-        }
-
+    public void atualizarEntrega(Entrega entrega) {
+        int indice = listaEntregas.indexOf(entrega);
+        listaEntregas.set(indice, entrega);
     }
-
 
     //TODO: CRIAR UMA CLASSE UTIL COM MÉTODOS PARA TRABALHAR COM DATE
     public String getRelatorio(Date dataInicial, Date dataFinal){
         StringBuilder lista = new StringBuilder();
         String s = String.format("Entrega | Data/hora | Descrição                | Apto | Operador | Retirada | Morador ");
         lista.append(s);
-        for (Entrega en: listaEntregasNaoRetiradas) {
+        for (Entrega en: listaEntregas) {
             if((en.getDataRecebimento().after(dataInicial) || en.getDataRecebimento().equals(dataInicial)) &&
                (en.getDataRecebimento(). before(dataFinal) || en.getDataRecebimento().equals(dataInicial))){
                 s = String.format("%d | %S | %s | %s | %s | %s | %s",
