@@ -4,75 +4,25 @@ import Colecoes.ListaOperadores;
 import Entities.Entrega;
 import Entities.Morador;
 import Entities.Operador;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.util.Date;
 import java.util.Scanner;
 
 public class App {
 
     public static void main(String[] args){
+        final ListaOperadores Operadores = new ListaOperadores();
+        final ListaMoradores  Moradores  = new ListaMoradores();
+        final ListaEntregas   Entregas   = new ListaEntregas();
 
+        Scanner inputInt = new Scanner(System.in);
+        Scanner inputString = new Scanner(System.in);
 
-        Scanner in = new Scanner(System.in);
-
-
-        Operador currOperador = new Operador("Bira Leibe");
-
-
-        ListaOperadores Operadores = new ListaOperadores();
-        ListaMoradores  Moradores  = new ListaMoradores();
-        ListaEntregas   Entregas   = new ListaEntregas();
-        int escolha = 0;
-        do{
-            System.out.println("Sistema de entregas em condominio");
-            System.out.println("Escolha um numero");
-            System.out.println("1 - Escolher operador");
-            System.out.println("2 - Inserir novo operador");
-            System.out.println("3 - Registrar entrega");
-            System.out.println("4 - Incluir novo morador");
-            System.out.println("5 - Registrar retirada de entrega");
-            System.out.println("6 - Listar moradores");
-            System.out.println("7 - Listar entregas não retiradas");
-            System.out.println("8 - Procurar entrega pela descricao");
-            System.out.println("9 - Gerar relatorio");
-            System.out.println("0 - Sair");
-            Scanner input = new Scanner(System.in);
-            escolha = input.nextInt();
-            switch (escolha){
-                case 1:
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-                case 4:
-                    break;
-                case 5:
-                    break;
-                case 6:
-                    break;
-                case 7:
-                    break;
-                case 8:
-                    break;
-                case 9:
-                    break;
-            }
-        }while (escolha!=0);
-
-
+        Operador currOperador = new Operador("Operador Teste");
+        currOperador.setListaEntregas(Entregas);
 
         int op = 0;
-
-
-        while (op >=0) {
-
-
-
-            System.out.println("Operações:\n" +
-                    "\n1) Escolher Operador\n" +
+        while (op >= 0) {
+            System.out.println("Operações:\n\n" +
+                    "1) Escolher Operador\n" +
                     "2) Incluir Operador\n" +
                     "3) Incluir Morador\n" +
                     "4) Listar Moradores\n" +
@@ -83,169 +33,86 @@ public class App {
                     "9) Gerar Relatório\n\n" +
                     "(-1 para Sair)");
 
-
             System.out.println("\nInforme uma opcao:\n");
-
-
-            op = in.nextInt();
-
-
+            op = inputInt.nextInt();
             switch (op) {
-
                 case 1:     // ESCOLHER OPERADOR
-
-
                     System.out.println("PRECISA SER FEITO!");
-
                     break;
-
-
                 case 2:     // INCLUIR NOVO OPERADOR
                     System.out.println("PRECISA SER FEITO!");
-
                     break;
-
-
                 case 3:     // INCLUIR MORADOR
                     System.out.println("PRECISA SER FEITO!");
-
                     break;
-
-
                 case 4:     // LISTAR MORADORES
                     System.out.println("PRECISA SER FEITO!");
-
                     break;
-
                 case 5:     // REGISTRAR NOVA ENTREGA
+                    System.out.println("Informe o apartamento de destino da entrega");
+                    int aptoTemp = inputInt.nextInt();
 
-                    System.out.println("SENDO SER FEITO!");
+                    System.out.println("Informe uma breve descrição da entrega");
+                    String descTemp = inputString.nextLine();
 
-                    System.out.println("Informe o apartamento de destino da Entrega");
-
-                    String aptoTemp = in.next();
-
-
-                    System.out.println("Informe uma breve descrição da Entrega");
-                    String descTemp = "";
-                    descTemp = in.next();
-
-
-                    System.out.println("Informe a Data da Entrega (dd/MM/yyyy)");
-                    String dataTemp = in.next();
-
-
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-
-                    Date date = null;
-
-                    try {
-
-                        date = formatter.parse(dataTemp);
-
-
-                    } catch (ParseException e) {
-                        e.printStackTrace();
+                    currOperador.registraEntrega(aptoTemp,descTemp);
+                    for(int i = 1; i < Entregas.getEntregas("teste").size(); i++){
+                        System.out.println(Entregas.getEntregas("teste"));
+                        ++i;
                     }
 
-
-
-                    System.out.println("Informe o horário da Entrega (Hr:Mn)");
-
-                    String horaTemp = in.next();
-
-
-                    //REGISTRANDO A ENTREGA
-                    registraEntrega(Entregas,currOperador,aptoTemp,descTemp,date,horaTemp);
-
                     break;
-
                 case 6:     // REGISTRAR RETIRADA DE PACOTE
                     try {
+                        System.out.println("Insira o número da entrega que desejas retirar");
+                        int idEntrega = inputInt.nextInt();
 
-                        System.out.println("Digite o número da entrega que desejas retirar");
+                        System.out.println("Insira o RG do morador que vai realizar a retirada");
+                        String rgMorador = inputString.nextLine();
 
-                        int idEntrega = in.nextInt();
-
-                        System.out.println("Digite o RG do morador que vai realizar a retirada");
-
-                        String rgMorador = in.next();
-
-                        if (rgMorador == null || rgMorador.isEmpty())
-                            throw new Exception("RG do morador inválido");
+                        if (rgMorador == null || rgMorador.trim().isEmpty()) {
+                            throw new Exception("Registro Geral inválido");
+                        }
 
                         Morador morador = Moradores.getMorador(rgMorador);
-
-                        if (morador == null) throw new Exception("Morador não encontrado");
+                        if (morador == null){
+                            throw new Exception("Morador não encontrado");
+                        }
 
                         Entrega entrega = Entregas.getEntrega(idEntrega);
 
-                        if (entrega == null)
+                        if (entrega == null) {
                             throw new Exception("Entrega não encontrada");
+                        }
 
-                        if (entrega.foiRetirada())
+                        if (entrega.getDataRetirada() != null)
                             throw new Exception("Esta entrega já foi retirada");
 
                         if (entrega.getApto().equals(morador.getApto()))
                             throw new Exception("O morador de retirada não pertence ao apto da entrega");
 
-                        entrega.registrarRetirada(morador);
-
+                        currOperador.registrarRetirada(morador,idEntrega);
                         Entregas.atualizarEntrega(entrega);
-
                         System.out.println("Retirada registrada com sucesso!");
 
                     } catch (Exception ex) {
                         System.out.println(ex.getMessage());
                     }
-
                     break;
-
                 case 7:     // PROCURAR ENTREGA VIA DESCRICAO
                     System.out.println("PRECISA SER FEITO!");
-
                     break;
-
                 case 8:     // LISTAR ENTREGAS NAO RETIRADAS
                     if (Entregas.getNaoRetiradas().size() == 0)
                         System.out.println("Não há entregas a serem retiradas");
-
                     Entregas.getNaoRetiradas().forEach(e -> System.out.println(e.toString()));
-
                     break;
-
                 case 9:     // GERAR RELATÓRIO
                     System.out.println("PRECISA SER FEITO!");
-
                     break;
-
-
                     default:
                         System.out.println("Fim do poço amigo, Slender vai te pegar.");
-
-
-
             }
-
-
         }
-
     }
-
-    public static void registraEntrega(ListaEntregas ListaEntregas,Operador operador, String apartamento, String descricao, Date data, String hora){
-
-
-        //CRIA UMA ENTREGA COM OS ATRIBUTOS
-        Entrega umaEntrega = new Entrega(operador,apartamento, descricao,data);
-
-
-
-        //ADICIONA A ENTREGA NA LISTA
-        ListaEntregas.addEntrega(umaEntrega);
-
-        System.out.println("Entrega registrada com sucesso!\n\n");
-
-
-    }
-
 }
