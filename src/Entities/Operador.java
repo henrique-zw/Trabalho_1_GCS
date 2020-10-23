@@ -1,6 +1,7 @@
 package Entities;
 
 import Colecoes.ListaEntregas;
+import Utils.ManipuladorDeDatas;
 
 import java.time.Instant;
 import java.util.Date;
@@ -80,20 +81,36 @@ public class Operador {
         }
     }
 
-    public String getRelatorio(Date dataInicial, Date dataFinal){
+    public String getRelatorio(String dataInicial, String dataFinal){
         //TODO: CRIAR UM PACKAGE E UMA CLASSE UTIL COM MÉTODOS PARA TRABALHAR COM DATE
-        StringBuilder lista = new StringBuilder();
-        String s = "Entrega | Data/hora | Descrição                | Apto | Operador | Retirada | Morador ";
-        lista.append(s);
-        for (int i = 0; i < getListaEntregas().getSize(); i++) {
-            if((getListaEntregas().getEntrega(i).getDataRecebimento().after(dataInicial) || getListaEntregas().getEntrega(i).getDataRecebimento().equals(dataInicial)) &&
-                    (getListaEntregas().getEntrega(i).getDataRecebimento(). before(dataFinal) || getListaEntregas().getEntrega(i).getDataRecebimento().equals(dataInicial))){
-                s = String.format("%d | %S | %s | %s | %s | %s | %s",
-                        getListaEntregas().getEntrega(i).getId(), getListaEntregas().getEntrega(i).getDataRecebimento(),getListaEntregas().getEntrega(i).getDescricao(), getListaEntregas().getEntrega(i).getApto(), getListaEntregas().getEntrega(i).getOperador().getIniciais(),
-                        getListaEntregas().getEntrega(i).getDataRetirada(), getListaEntregas().getEntrega(i).getMorador().getNome());
-                lista.append(s);
+        try {
+            Date dataIni = ManipuladorDeDatas.StringToDate(dataInicial);
+            Date dataFim = ManipuladorDeDatas.StringToDate(dataFinal);
+
+            StringBuilder lista = new StringBuilder();
+            String s = "Entrega | Data/hora | Descrição                | Apto | Operador | Retirada | Morador ";
+            lista.append(s);
+
+            for (int i = 0; i < getListaEntregas().getSize(); i++) {
+
+                Date dataRecebimento = getListaEntregas().getEntrega(i).getDataRecebimento();
+                Date dataRetirada = getListaEntregas().getEntrega(i).getDataRetirada();
+
+                if((dataRecebimento.after(dataIni) || dataRecebimento.equals(dataIni)) &&
+                        (dataRecebimento. before(dataFim) || dataRecebimento.equals(dataFim))){
+                    String sDataRecebimento = ManipuladorDeDatas.dateToString(dataRecebimento);
+                    String sDataRetirada = dataRetirada != null ? ManipuladorDeDatas.dateToString(dataRecebimento) : "-";
+                    s = String.format("%d | %S | %s | %s | %s | %s | %s\n",
+                            getListaEntregas().getEntrega(i).getId(), sDataRecebimento,getListaEntregas().getEntrega(i).getDescricao(), getListaEntregas().getEntrega(i).getApto(), getListaEntregas().getEntrega(i).getOperador().getIniciais(),
+                            sDataRetirada, getListaEntregas().getEntrega(i).getMorador().getNome());
+                    lista.append(s);
+                }
             }
+            return lista.toString();
         }
-        return lista.toString();
+        catch (Exception e){
+            //TODO
+        }
+        return null;
     }
 }

@@ -4,20 +4,48 @@ import Colecoes.ListaOperadores;
 import Entities.Entrega;
 import Entities.Morador;
 import Entities.Operador;
+import Utils.ManipuladorDeDatas;
+
+import java.text.ParseException;
+import java.time.Instant;
+import java.util.Date;
 import java.util.Scanner;
 
 public class App {
-
     public static void main(String[] args){
-        final ListaOperadores Operadores = new ListaOperadores();
-        final ListaMoradores  Moradores  = new ListaMoradores();
-        final ListaEntregas   Entregas   = new ListaEntregas();
 
         Scanner inputInt = new Scanner(System.in);
         Scanner inputString = new Scanner(System.in);
 
+        //TODO: SÓ PARA TESTES INICIAS
+        final ListaOperadores Operadores = new ListaOperadores();
+        final ListaMoradores  Moradores  = new ListaMoradores();
+        final ListaEntregas   Entregas   = new ListaEntregas();
+
+        //currOperador deve receber o operador do método de seleção de operadores
         Operador currOperador = new Operador("Operador Teste");
         currOperador.setListaEntregas(Entregas);
+
+        Morador morador01 = new Morador("1234567890","morador teste", 123);
+        Moradores.addMorador(morador01);
+
+        String data = "23/10/2020 19:52:15";
+        try {
+            System.out.println(ManipuladorDeDatas.StringToDate(data));
+        }
+        catch (ParseException e){
+            e.printStackTrace();
+        }
+        Date date = Date.from(Instant.now());
+        try {
+            System.out.println(ManipuladorDeDatas.dateToString(date));
+        }
+        catch (ParseException e){
+            e.printStackTrace();
+        }
+
+
+        ///////////////////////////////////////
 
         int op = 0;
         while (op >= 0) {
@@ -56,6 +84,8 @@ public class App {
                     String descTemp = inputString.nextLine();
 
                     currOperador.registraEntrega(aptoTemp,descTemp);
+
+                    //somente para testes
                     for(int i = 1; i < Entregas.getEntregas("teste").size(); i++){
                         System.out.println(Entregas.getEntregas("teste"));
                         ++i;
@@ -85,15 +115,20 @@ public class App {
                             throw new Exception("Entrega não encontrada");
                         }
 
-                        if (entrega.getDataRetirada() != null)
+                        if (entrega.getDataRetirada() != null) {
                             throw new Exception("Esta entrega já foi retirada");
+                        }
 
-                        if (entrega.getApto().equals(morador.getApto()))
+                        if (entrega.getApto().equals(morador.getApto())) {
                             throw new Exception("O morador de retirada não pertence ao apto da entrega");
+                        }
 
                         currOperador.registrarRetirada(morador,idEntrega);
                         Entregas.atualizarEntrega(entrega);
                         System.out.println("Retirada registrada com sucesso!");
+
+                        //somente para testes
+                        System.out.println(Entregas.getEntrega(idEntrega));
 
                     } catch (Exception ex) {
                         System.out.println(ex.getMessage());
@@ -103,12 +138,21 @@ public class App {
                     System.out.println("PRECISA SER FEITO!");
                     break;
                 case 8:     // LISTAR ENTREGAS NAO RETIRADAS
-                    if (Entregas.getNaoRetiradas().size() == 0)
+                    if (Entregas.getNaoRetiradas().size() == 0) {
                         System.out.println("Não há entregas a serem retiradas");
+                    }
                     Entregas.getNaoRetiradas().forEach(e -> System.out.println(e.toString()));
                     break;
                 case 9:     // GERAR RELATÓRIO
-                    System.out.println("PRECISA SER FEITO!");
+                    System.out.println("Insira a data inicial (EX: 01/01/2001): ");
+                    String dataIni = inputString.nextLine();
+
+                    System.out.println("Insira a data final (EX: 01/01/2001): ");
+                    String dataFim = inputString.nextLine();
+
+                    String relatorio = currOperador.getRelatorio(dataIni, dataFim);
+                    System.out.println(relatorio);
+
                     break;
                     default:
                         System.out.println("Fim do poço amigo, Slender vai te pegar.");
