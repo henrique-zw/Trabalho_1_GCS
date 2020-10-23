@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListaMoradores {
-    private List<Morador> listaMoradores;
+    private final List<Morador> listaMoradores;
 
     public ListaMoradores() {
         this.listaMoradores = new ArrayList<>();
@@ -31,7 +31,7 @@ public class ListaMoradores {
     public String toString() {
         StringBuilder lista = new StringBuilder();
         for (Morador mo: listaMoradores) {
-            String s = String.format("Nome: %s / Apto: %s\n",mo.getNome(),mo.getApto());
+            String s = String.format("NOME: %s / APTO: %s\n", mo.getNome(), mo.getApto());
             lista.append(s);
         }
         return lista.toString();

@@ -2,7 +2,6 @@ package Colecoes;
 
 import Entities.Entrega;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,14 +10,18 @@ import java.util.stream.Collectors;
 
 public class ListaEntregas {
 
-    private List<Entrega> listaEntregas;
+    private final List<Entrega> listaEntregas;
+    private int idEntrega;
 
     public ListaEntregas() {
         this.listaEntregas = new ArrayList<>();
+        this.idEntrega = 1;
     }
 
     public void addEntrega(Entrega entrega){
+        entrega.setId(idEntrega);
         listaEntregas.add(entrega);
+        idEntrega++;
     }
 
     public Entrega getEntrega(int id) {
@@ -39,7 +42,7 @@ public class ListaEntregas {
     }
 
     public List<Entrega> getNaoRetiradas(){
-        Predicate<Entrega> naoRetiradas = entrega -> !entrega.foiRetirada();
+        Predicate<Entrega> naoRetiradas = entrega -> entrega.getDataRetirada() == null;
         return listaEntregas.stream().filter(naoRetiradas).collect(Collectors.toList());
     }
 
@@ -48,20 +51,7 @@ public class ListaEntregas {
         listaEntregas.set(indice, entrega);
     }
 
-    //TODO: CRIAR UMA CLASSE UTIL COM MÉTODOS PARA TRABALHAR COM DATE
-    public String getRelatorio(Date dataInicial, Date dataFinal){
-        StringBuilder lista = new StringBuilder();
-        String s = String.format("Entrega | Data/hora | Descrição                | Apto | Operador | Retirada | Morador ");
-        lista.append(s);
-        for (Entrega en: listaEntregas) {
-            if((en.getDataRecebimento().after(dataInicial) || en.getDataRecebimento().equals(dataInicial)) &&
-               (en.getDataRecebimento(). before(dataFinal) || en.getDataRecebimento().equals(dataInicial))){
-                s = String.format("%d | %S | %s | %s | %s | %s | %s",
-                        en.getId(), en.getDataRecebimento(),en.getDescricao(), en.getApto(), en.getOperador().getIniciais(),
-                        en.getDataRetirada(), en.getMorador().getNome());
-                lista.append(s);
-            }
-        }
-        return lista.toString();
+    public int getSize(){
+        return listaEntregas.size();
     }
 }

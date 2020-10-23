@@ -1,20 +1,17 @@
 package Entities;
 
-import java.time.Instant;
 import java.util.Date;
 
 public class Entrega {
-    private static int count;
-    private int id;
+    private Integer id;
     private Operador operador;
     private Morador morador;
-    private String apto;
+    private Integer apto;
     private String descricao;
     private Date dataRecebimento;
     private Date dataRetirada;
 
-    public Entrega(Operador operador, String apto, String descricao, Date dataRecebimento) {
-        setId(++count);
+    public Entrega(Operador operador, Integer apto, String descricao, Date dataRecebimento) {
         setOperador(operador);
         setApto(apto);
         setDescricao(descricao);
@@ -23,18 +20,16 @@ public class Entrega {
         this.dataRetirada = null;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
-
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
     public Operador getOperador() {
         return operador;
     }
-
     public void setOperador(Operador operador) {
         if (operador != null){
             this.operador = operador;
@@ -44,21 +39,26 @@ public class Entrega {
     public Morador getMorador() {
         return morador;
     }
-
-    public String getApto() {
-        return apto;
+    public void setMorador(Morador morador) {
+        if (morador != null) {
+            this.morador = morador;
+        }
     }
 
-    public void setApto(String apto) {
-        this.apto = apto;
+    public Integer getApto() {
+        return apto;
+    }
+    public void setApto(Integer apto) {
+        if(apto != null) {
+            this.apto = apto;
+        }
     }
 
     public String getDescricao() {
         return this.descricao;
     }
-
     public void setDescricao(String descricao) {
-        if (descricao != null && !descricao.isEmpty()) {
+        if (descricao != null && !descricao.trim().isEmpty()) {
             this.descricao = descricao;
         }
     }
@@ -66,7 +66,6 @@ public class Entrega {
     public Date getDataRecebimento() {
         return dataRecebimento;
     }
-
     public void setDataRecebimento(Date dataRecebimento) {
         if(dataRecebimento != null){
             this.dataRecebimento = dataRecebimento;
@@ -77,26 +76,18 @@ public class Entrega {
         return dataRetirada;
     }
 
-    public void registrarRetirada(Morador morador) {
-        if (this.dataRecebimento != null) this.dataRetirada = Date.from(Instant.now());
-        this.morador = morador;
-    }
-
-    public Boolean foiRetirada() {
-        return this.dataRetirada != null;
+    public void setDataRetirada(Date dataRetirada) {
+        if(dataRetirada != null) {
+            this.dataRetirada = dataRetirada;
+        }
     }
 
     @Override
     public String toString() {
-        String s = new String();
+        String dataRecebimento = getDataRecebimento().toString();
+        String dataRetirada = getDataRetirada() == null ? "-" : getDataRetirada().toString();
 
-        s += "\nApto: "+ this.getApto();
-        s += "\nID: "+ this.getId();
-        s += "\nDESCRICAO: "+ this.getDescricao();
-        s += "\nDATA RECEBIMENTO: "+ this.getDataRecebimento();
-        s += "\nOPERADOR: "+ this.getOperador().getNome();
-        //s += "\nDATA RETIRADA: "+this.getDataRetirada();
-
-        return s;
+        return String.format("ID: %d\nDESCRIÇÃO: %s\nAPTO: %s\nRECEBIMENTO: %s\nENTREGA: %s\n",
+                getId(), getDescricao(), getApto(), dataRecebimento, dataRetirada);
     }
 }
