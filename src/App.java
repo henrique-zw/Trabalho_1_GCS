@@ -2,9 +2,11 @@ import Colecoes.ListaEntregas;
 import Colecoes.ListaMoradores;
 import Colecoes.ListaOperadores;
 import Entities.Entrega;
+import Entities.Morador;
 import Entities.Operador;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -159,7 +161,43 @@ public class App {
                     break;
 
                 case 6:     // REGISTRAR RETIRADA DE PACOTE
-                    System.out.println("PRECISA SER FEITO!");
+                    try {
+
+                        System.out.println("Digite o número da entrega que desejas retirar");
+
+                        int idEntrega = in.nextInt();
+
+                        System.out.println("Digite o RG do morador que vai realizar a retirada");
+
+                        String rgMorador = in.next();
+
+                        if (rgMorador == null || rgMorador.isEmpty())
+                            throw new Exception("RG do morador inválido");
+
+                        Morador morador = Moradores.getMorador(rgMorador);
+
+                        if (morador == null) throw new Exception("Morador não encontrado");
+
+                        Entrega entrega = Entregas.getEntrega(idEntrega);
+
+                        if (entrega == null)
+                            throw new Exception("Entrega não encontrada");
+
+                        if (entrega.foiRetirada())
+                            throw new Exception("Esta entrega já foi retirada");
+
+                        if (entrega.getApto().equals(morador.getApto()))
+                            throw new Exception("O morador de retirada não pertence ao apto da entrega");
+
+                        entrega.registrarRetirada(morador);
+
+                        Entregas.atualizarEntrega(entrega);
+
+                        System.out.println("Retirada registrada com sucesso!");
+
+                    } catch (Exception ex) {
+                        System.out.println(ex.getMessage());
+                    }
 
                     break;
 
@@ -169,9 +207,10 @@ public class App {
                     break;
 
                 case 8:     // LISTAR ENTREGAS NAO RETIRADAS
-                    
+                    if (Entregas.getNaoRetiradas().size() == 0)
+                        System.out.println("Não há entregas a serem retiradas");
 
-                    listaEntregasNaoColetadas(Entregas);
+                    Entregas.getNaoRetiradas().forEach(e -> System.out.println(e.toString()));
 
                     break;
 
@@ -191,14 +230,7 @@ public class App {
 
         }
 
-
-
-
-
-
     }
-
-
 
     public static void registraEntrega(ListaEntregas ListaEntregas,Operador operador, String apartamento, String descricao, Date data, String hora){
 
@@ -215,24 +247,5 @@ public class App {
 
 
     }
-
-    public static void listaEntregasNaoColetadas(ListaEntregas ListaEntregas){
-
-
-        for(int i=0;i<ListaEntregas.getSizeNaoRetiradas();i++){
-
-            System.out.println(ListaEntregas.getNaoRetiradas().get(i).toString());
-
-        }
-
-
-
-
-
-    }
-
-
-
-
 
 }

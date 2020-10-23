@@ -1,5 +1,6 @@
 package Entities;
 
+import java.time.Instant;
 import java.util.Date;
 
 public class Entrega {
@@ -13,7 +14,7 @@ public class Entrega {
     private Date dataRetirada;
 
     public Entrega(Operador operador, String apto, String descricao, Date dataRecebimento) {
-        setId(count++);
+        setId(++count);
         setOperador(operador);
         setApto(apto);
         setDescricao(descricao);
@@ -35,19 +36,13 @@ public class Entrega {
     }
 
     public void setOperador(Operador operador) {
-        if(operador != null){
+        if (operador != null){
             this.operador = operador;
         }
     }
 
     public Morador getMorador() {
         return morador;
-    }
-
-    public void setMorador(Morador morador) {
-        if(operador != null){
-            this.morador = morador;
-        }
     }
 
     public String getApto() {
@@ -62,17 +57,10 @@ public class Entrega {
         return this.descricao;
     }
 
-
-
     public void setDescricao(String descricao) {
-
-
-        if(descricao != null && !descricao.isEmpty()) {
-
-                this.descricao = descricao;
-
+        if (descricao != null && !descricao.isEmpty()) {
+            this.descricao = descricao;
         }
-
     }
 
     public Date getDataRecebimento() {
@@ -89,12 +77,14 @@ public class Entrega {
         return dataRetirada;
     }
 
-    public void setDataRetirada(Date dataRetirada) {
-        if(dataRecebimento != null) {
-            this.dataRetirada = dataRetirada;
-        }
+    public void registrarRetirada(Morador morador) {
+        if (this.dataRecebimento != null) this.dataRetirada = Date.from(Instant.now());
+        this.morador = morador;
     }
 
+    public Boolean foiRetirada() {
+        return this.dataRetirada != null;
+    }
 
     @Override
     public String toString() {
