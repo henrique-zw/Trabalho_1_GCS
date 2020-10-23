@@ -42,7 +42,7 @@ public class Morador {
     }
 
     public void setApto(String apto) {
-        if(!nome.isEmpty() && !nome.isEmpty()) {
+        if(!nome.isEmpty() && !nome.isBlank()) {
             this.apto = apto;
         }
     }

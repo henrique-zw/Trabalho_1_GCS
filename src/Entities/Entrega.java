@@ -98,6 +98,10 @@ public class Entrega {
 
     @Override
     public String toString() {
+
+
+        System.out.println("-----------------------------------------");
+
         String s = new String();
 
         s += "\nApto: "+ this.getApto();
@@ -105,6 +109,21 @@ public class Entrega {
         s += "\nDESCRICAO: "+ this.getDescricao();
         s += "\nDATA RECEBIMENTO: "+ this.getDataRecebimento();
         s += "\nOPERADOR: "+ this.getOperador().getNome();
+
+        if(this.getMorador() != null){
+            s += "\nMORADOR: "+ this.getMorador().getNome();
+        }else{
+            s += "\nMORADOR AINDA NAO RETIROU ";
+        }
+
+
+        if(this.getDataRetirada() != null){
+            s += "\nData de Retirada: "+ this.getDataRetirada();
+        }else{
+            s += "\nData de Retirada não Informada";
+        }
+
+
         //s += "\nDATA RETIRADA: "+this.getDataRetirada();
 
         return s;

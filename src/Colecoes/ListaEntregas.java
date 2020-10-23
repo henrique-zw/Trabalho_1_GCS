@@ -2,6 +2,7 @@ package Colecoes;
 
 import Entities.Entrega;
 import Entities.Morador;
+import Entities.Operador;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class ListaEntregas {
 
     public ListaEntregas() {
         this.listaEntregasNaoRetiradas = new ArrayList<>();
+        this.listaEntregasRetiradas = new ArrayList<>();
         this.count = 1;
     }
 
@@ -56,23 +58,30 @@ public class ListaEntregas {
 
     }
 
-    public void retiraPacote(int id){
+    public List<Entrega> getRetiradas(){
 
-        Entrega eAux = null;
+        return listaEntregasRetiradas;
 
-        for (int i=0;i<= listaEntregasNaoRetiradas.size();i++){
+    }
+
+    public void retiraPacote(int id, Morador umMorador){
+
+
+        for (int i=0;i<listaEntregasNaoRetiradas.size()-1;i++){
 
             if(listaEntregasNaoRetiradas.get(i).getId() == id){
 
-                listaEntregasRetiradas.add(listaEntregasNaoRetiradas.get(i));
 
-
-                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                Entrega enAux = listaEntregasNaoRetiradas.remove(i);
+                enAux.setMorador(umMorador);
                 Date date = new Date();
-                System.out.println(formatter.format(date));
+                enAux.setDataRetirada(date);
 
+                System.out.println("Pacote: "+enAux.toString());
 
-                listaEntregasNaoRetiradas.remove(i);
+                System.out.println("\nRetirado com Sucesso");
+
+                listaEntregasRetiradas.add(enAux);
 
             }
 

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListaMoradores {
-    private List<Morador> listaMoradores;
+    public List<Morador> listaMoradores;
 
     public ListaMoradores() {
         this.listaMoradores = new ArrayList<>();
@@ -19,13 +19,21 @@ public class ListaMoradores {
 
     public Morador getMorador(String rg){
         Morador mAux = null;
-        for (Morador mo: listaMoradores) {
-            if(mo.getRegistoGeral().equals(rg)){
-                mAux = mo;
+
+
+        for(int i =0;i<listaMoradores.size();i++){
+            Morador mo = listaMoradores.get(i);
+            if (mo.getRegistoGeral().equals(rg)){
+
+                mAux=mo;
             }
+
         }
+
         return mAux;
     }
+
+    public int getSize(){return this.listaMoradores.size();}
 
     @Override
     public String toString() {
