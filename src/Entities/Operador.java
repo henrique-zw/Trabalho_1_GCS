@@ -102,29 +102,34 @@ public class Operador {
             Date dataFim = ManipuladorDeDatas.StringToDate(dataFinal);
 
             StringBuilder lista = new StringBuilder();
-            String s = "Entrega | Data/hora | Descrição                | Apto | Operador | Retirada | Morador ";
+            String s = "Entrega | Data/hora | Descrição                | Apto | Operador | Retirada | Morador \n";
             lista.append(s);
 
-            for (int i = 0; i < getListaEntregas().getSize(); i++) {
+            for (int i = 1; i < getListaEntregas().getSize()+1; i++) {
 
                 Date dataRecebimento = getListaEntregas().getEntrega(i).getDataRecebimento();
-                Date dataRetirada = getListaEntregas().getEntrega(i).getDataRetirada();
+                Date dataRetirada = null;
+
+                if (getListaEntregas().getEntrega(i).getDataRetirada() != null)
+                    dataRetirada = getListaEntregas().getEntrega(i).getDataRetirada();
 
                 if((dataRecebimento.after(dataIni) || dataRecebimento.equals(dataIni)) &&
-                        (dataRecebimento. before(dataFim) || dataRecebimento.equals(dataFim))){
+                        (dataRecebimento.before(dataFim) || dataRecebimento.equals(dataFim))){
                     String sDataRecebimento = ManipuladorDeDatas.dateToString(dataRecebimento);
                     String sDataRetirada = dataRetirada != null ? ManipuladorDeDatas.dateToString(dataRecebimento) : "-";
-                    s = String.format("%d | %S | %s | %s | %s | %s | %s\n",
+                    String sMorador = getListaEntregas().getEntrega(i).getMorador() != null ? getListaEntregas().getEntrega(i).getMorador().getNome() : "-";
+                    s = String.format("   %d    | %s | %s          | %s | %s | %s | %s\n",
                             getListaEntregas().getEntrega(i).getId(), sDataRecebimento,getListaEntregas().getEntrega(i).getDescricao(), getListaEntregas().getEntrega(i).getApto(), getListaEntregas().getEntrega(i).getOperador().getIniciais(),
-                            sDataRetirada, getListaEntregas().getEntrega(i).getMorador().getNome());
+                            sDataRetirada, sMorador);
                     lista.append(s);
+                    lista.append("\n");
                 }
             }
             return lista.toString();
         }
         catch (Exception e){
-            //TODO
+            return e.toString();
         }
-        return null;
+        //return null;
     }
 }
