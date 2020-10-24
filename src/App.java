@@ -4,11 +4,7 @@ import Colecoes.ListaOperadores;
 import Entities.Entrega;
 import Entities.Morador;
 import Entities.Operador;
-import Utils.ManipuladorDeDatas;
-
-import java.text.ParseException;
-import java.time.Instant;
-import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
 public class App {
@@ -22,28 +18,12 @@ public class App {
         final ListaMoradores  Moradores  = new ListaMoradores();
         final ListaEntregas   Entregas   = new ListaEntregas();
 
-        //currOperador deve receber o operador do método de seleção de operadores
+        //TODO: currOperador deve receber o operador do método de seleção de operadores
         Operador currOperador = new Operador("Operador Teste");
         currOperador.setListaEntregas(Entregas);
 
         Morador morador01 = new Morador("1234567890","morador teste", 123);
         Moradores.addMorador(morador01);
-
-        String data = "23/10/2020 19:52:15";
-        try {
-            System.out.println(ManipuladorDeDatas.StringToDate(data));
-        }
-        catch (ParseException e){
-            e.printStackTrace();
-        }
-        Date date = Date.from(Instant.now());
-        try {
-            System.out.println(ManipuladorDeDatas.dateToString(date));
-        }
-        catch (ParseException e){
-            e.printStackTrace();
-        }
-
 
         ///////////////////////////////////////
 
@@ -84,13 +64,6 @@ public class App {
                     String descTemp = inputString.nextLine();
 
                     currOperador.registraEntrega(aptoTemp,descTemp);
-
-                    //somente para testes
-                    for(int i = 1; i < Entregas.getEntregas("teste").size(); i++){
-                        System.out.println(Entregas.getEntregas("teste"));
-                        ++i;
-                    }
-
                     break;
                 case 6:     // REGISTRAR RETIRADA DE PACOTE
                     try {
@@ -124,11 +97,7 @@ public class App {
                         }
 
                         currOperador.registrarRetirada(morador,idEntrega);
-                        Entregas.atualizarEntrega(entrega);
                         System.out.println("Retirada registrada com sucesso!");
-
-                        //somente para testes
-                        System.out.println(Entregas.getEntrega(idEntrega));
 
                     } catch (Exception ex) {
                         System.out.println(ex.getMessage());
@@ -136,10 +105,15 @@ public class App {
                     break;
                 case 7:     // PROCURAR ENTREGA VIA DESCRICAO
                     System.out.println("Informe a descrição da entrega que deseja encontrar: ");
-                    String desc = inputString.nextLine();
-
-                    currOperador.procuraEntregaPorDescrição(desc);
-
+                    String descricao = inputString.nextLine();
+                    List<Entrega> list = currOperador.procuraEntregaPorDescricao(descricao);
+                    if(list != null){
+                        System.out.println("Entregas encontradas: ");
+                        System.out.println(list.toString());
+                    }
+                    else {
+                        System.out.println("Nada consta.");
+                    }
                     break;
                 case 8:     // LISTAR ENTREGAS NAO RETIRADAS
                     if (Entregas.getNaoRetiradas().size() == 0) {
@@ -156,10 +130,9 @@ public class App {
 
                     String relatorio = currOperador.getRelatorio(dataIni, dataFim);
                     System.out.println(relatorio);
-
                     break;
-                    default:
-                        System.out.println("Fim do poço amigo, Slender vai te pegar.");
+                default:
+                    System.out.println("Opção não encontrada, tente novamente.");
             }
         }
     }

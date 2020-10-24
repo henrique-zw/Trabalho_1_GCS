@@ -2,9 +2,12 @@ package Entities;
 
 import Colecoes.ListaEntregas;
 import Utils.ManipuladorDeDatas;
-
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class Operador {
     private String nome;
@@ -81,22 +84,15 @@ public class Operador {
         }
     }
 
-    public void procuraEntregaPorDescrição (String descAlvo){
-        boolean flag = true;
-
-        if(listaEntregas.getSize() != 0){
-            for (int i = 0; i< listaEntregas.getSize(); i++){
-                if(listaEntregas.get(i).getDescricao().contains(descAlvo)){
-                    System.out.println("Entregas encontradas com esta descrição: ");
-                    System.out.println(listaEntregas.get(i));
-                    flag = false;
+    public List<Entrega> procuraEntregaPorDescricao (String descricao){
+            List<Entrega> subList = new ArrayList<>();
+            for (int i = 1; i <= getListaEntregas().getSize(); i++) {
+                Entrega enAux = getListaEntregas().getEntrega(i);
+                if(enAux.getDescricao().contains(descricao.toUpperCase())){
+                    subList.add(enAux);
                 }
             }
-        }
-
-        if(flag){
-            System.out.println("Nada foi localizado com essa descrição. ");
-        }
+            return subList.size() > 0 ? subList : null;
     }
 
     public String getRelatorio(String dataInicial, String dataFinal){

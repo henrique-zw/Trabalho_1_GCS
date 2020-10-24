@@ -1,5 +1,8 @@
 package Entities;
 
+import Utils.ManipuladorDeDatas;
+
+import java.text.ParseException;
 import java.util.Date;
 
 public class Entrega {
@@ -59,7 +62,7 @@ public class Entrega {
     }
     public void setDescricao(String descricao) {
         if (descricao != null && !descricao.trim().isEmpty()) {
-            this.descricao = descricao;
+            this.descricao = descricao.toUpperCase();
         }
     }
 
@@ -85,7 +88,14 @@ public class Entrega {
     @Override
     public String toString() {
         String dataRecebimento = getDataRecebimento().toString();
-        String dataRetirada = getDataRetirada() == null ? "-" : getDataRetirada().toString();
+        String dataRetirada = getDataRetirada().toString();
+
+        try {
+            dataRecebimento = ManipuladorDeDatas.dateToString(getDataRecebimento());
+            dataRetirada = getDataRetirada() == null ? "-" : ManipuladorDeDatas.dateToString(getDataRetirada());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         return String.format("ID: %d\nDESCRIÇÃO: %s\nAPTO: %s\nRECEBIMENTO: %s\nENTREGA: %s\n",
                 getId(), getDescricao(), getApto(), dataRecebimento, dataRetirada);
