@@ -51,10 +51,21 @@ public class App {
                     System.out.println("PRECISA SER FEITO!");
                     break;
                 case 3: // INCLUIR MORADOR
-                    System.out.println("PRECISA SER FEITO!");
+                    System.out.print("\nNome completo do novo morador: ");
+                    String nomeMorador = inputString.nextLine();
+                    String rg = null;
+                    do {
+                        System.out.print("\nNumero Registro Geral: ");
+                        rg = inputString.nextLine();
+                    } while (rg.length()!=10);
+                    System.out.print("\nNumero apartamento: ");
+                    int ape = inputInt.nextInt();
+
+                    Morador newMorador = new Morador(rg, nomeMorador, ape);
+                    Moradores.addMorador(newMorador);
                     break;
                 case 4: // LISTAR MORADORES
-                    System.out.println("PRECISA SER FEITO!");
+                    System.out.println(Moradores.toString());
                     break;
                 case 5: // REGISTRAR NOVA ENTREGA
                     System.out.println("Informe o apartamento de destino da entrega");
