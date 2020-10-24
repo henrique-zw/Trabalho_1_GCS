@@ -135,7 +135,11 @@ public class App {
                     }
                     break;
                 case 7:     // PROCURAR ENTREGA VIA DESCRICAO
-                    System.out.println("PRECISA SER FEITO!");
+                    System.out.println("Informe a descrição da entrega que deseja encontrar: ");
+                    String desc = inputString.nextLine();
+
+                    currOperador.procuraEntregaPorDescrição(desc);
+
                     break;
                 case 8:     // LISTAR ENTREGAS NAO RETIRADAS
                     if (Entregas.getNaoRetiradas().size() == 0) {

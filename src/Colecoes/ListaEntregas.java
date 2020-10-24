@@ -18,6 +18,10 @@ public class ListaEntregas {
         this.idEntrega = 1;
     }
 
+    public Entrega get(int i){
+        return listaEntregas.get(i);
+    }
+
     public void addEntrega(Entrega entrega){
         entrega.setId(idEntrega);
         listaEntregas.add(entrega);
@@ -40,6 +44,7 @@ public class ListaEntregas {
         }
         return subList;
     }
+
 
     public List<Entrega> getNaoRetiradas(){
         Predicate<Entrega> naoRetiradas = entrega -> entrega.getDataRetirada() == null;
