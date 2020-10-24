@@ -44,7 +44,7 @@ public class Operador {
                     !s.equalsIgnoreCase("das") &&
                     !s.equalsIgnoreCase("do") &&
                     !s.equalsIgnoreCase("dos")){
-                sAux.append(s.charAt(0));
+                sAux.append(Character.toUpperCase(s.charAt(0)));
             }
         }
         this.iniciais = sAux.toString();
