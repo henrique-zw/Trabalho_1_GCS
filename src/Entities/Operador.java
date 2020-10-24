@@ -81,6 +81,24 @@ public class Operador {
         }
     }
 
+    public void procuraEntregaPorDescrição (String descAlvo){
+        boolean flag = true;
+
+        if(listaEntregas.getSize() != 0){
+            for (int i = 0; i< listaEntregas.getSize(); i++){
+                if(listaEntregas.get(i).getDescricao().contains(descAlvo)){
+                    System.out.println("Entregas encontradas com esta descrição: ");
+                    System.out.println(listaEntregas.get(i));
+                    flag = false;
+                }
+            }
+        }
+
+        if(flag){
+            System.out.println("Nada foi localizado com essa descrição. ");
+        }
+    }
+
     public String getRelatorio(String dataInicial, String dataFinal){
         //TODO: CRIAR UM PACKAGE E UMA CLASSE UTIL COM MÉTODOS PARA TRABALHAR COM DATE
         try {
