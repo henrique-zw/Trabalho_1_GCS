@@ -1,4 +1,5 @@
 import Colecoes.ListaMoradores;
+import Colecoes.ListaOperadores;
 import Entities.Entrega;
 import Entities.Morador;
 import Entities.Operador;
@@ -41,14 +42,20 @@ public class App {
             System.out.println("\nInforme uma opcao:\n");
             op = inputInt.nextInt();
             switch (op) {
+                case -1: // SAIR
+                    System.out.println("Saindo");
+                    break;
                 case 1: // ESCOLHER OPERADOR
                     System.out.println("Entre com as inciais do operador: ");
                     String iniciais = inputString.nextLine();
                     currOperador = populadorOperadores.getOperador(iniciais);
+                    //TODO AQUI TEM Q VERIFICAR SE REALMENTE EXISTE O OPERADOR OU NAO
                     System.out.println("Operador selecionado: " + currOperador.getNome());
                     break;
                 case 2: // INCLUIR NOVO OPERADOR
-                    System.out.println("PRECISA SER FEITO!");
+                    System.out.print("\nNome completo do novo operador: ");
+                    String nomeOperador = inputString.nextLine();
+                    populadorOperadores.addOperador(nomeOperador);
                     break;
                 case 3: // INCLUIR MORADOR
                     System.out.print("\nNome completo do novo morador: ");

@@ -38,6 +38,19 @@ public class PopuladorOperadores {
         return listaOperadores;
     }
 
+    public void addOperador (String nomeOperador) {
+        Operador preVerificacao = new Operador(nomeOperador);
+        String inicialDoPre = preVerificacao.getIniciais();
+        Operador existe = listaOperadores.getOperador(inicialDoPre);
+        if (existe == null) {
+            listaOperadores.addOperador(preVerificacao);
+            System.out.println("Operador Adicionado");
+        } else {
+            System.out.println("Ja existe um operador com as mesmas iniciais");
+        }
+
+    }
+
     private ListaEntregas getListaEntregas() {
         return listaEntregas;
     }
