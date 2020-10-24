@@ -5,7 +5,6 @@ import Entities.Entrega;
 import Entities.Morador;
 import Entities.Operador;
 import Utils.ManipuladorDeDatas;
-
 import java.text.ParseException;
 import java.time.Instant;
 import java.util.Date;
@@ -28,22 +27,6 @@ public class App {
 
         Morador morador01 = new Morador("1234567890","morador teste", 123);
         Moradores.addMorador(morador01);
-
-        String data = "23/10/2020 19:52:15";
-        try {
-            System.out.println(ManipuladorDeDatas.StringToDate(data));
-        }
-        catch (ParseException e){
-            e.printStackTrace();
-        }
-        Date date = Date.from(Instant.now());
-        try {
-            System.out.println(ManipuladorDeDatas.dateToString(date));
-        }
-        catch (ParseException e){
-            e.printStackTrace();
-        }
-
 
         ///////////////////////////////////////
 
