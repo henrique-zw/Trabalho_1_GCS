@@ -87,8 +87,8 @@ public class Entrega {
 
     @Override
     public String toString() {
-        String dataRecebimento = getDataRecebimento().toString();
-        String dataRetirada = getDataRetirada().toString();
+        String dataRecebimento = null;
+        String dataRetirada = null;
 
         try {
             dataRecebimento = ManipuladorDeDatas.dateToString(getDataRecebimento());
