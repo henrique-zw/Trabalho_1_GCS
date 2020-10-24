@@ -41,6 +41,9 @@ public class App {
             System.out.println("\nInforme uma opcao:\n");
             op = inputInt.nextInt();
             switch (op) {
+                case -1: // SAIR
+                    System.out.println("Saindo");
+                    break;
                 case 1: // ESCOLHER OPERADOR
                     System.out.println("Entre com as inciais do operador: ");
                     String iniciais = inputString.nextLine();
