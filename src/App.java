@@ -1,11 +1,9 @@
-import Colecoes.ListaEntregas;
 import Colecoes.ListaMoradores;
-import Colecoes.ListaOperadores;
 import Entities.Entrega;
 import Entities.Morador;
 import Entities.Operador;
 import Populadores.PopuladorOperadores;
-import Utils.ManipuladorDeDatas;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,7 +15,7 @@ public class App {
       
       // TODO: SÓ PARA TESTES INICIAS
       final ListaMoradores Moradores = new ListaMoradores();
-      final ListaEntregas Entregas = new ListaEntregas();
+
       Morador morador01 = new Morador("1234567890", "morador teste", 123);
       Moradores.addMorador(morador01);
       ///////////////////////////////
@@ -26,7 +24,6 @@ public class App {
       
       // TODO:currOperador deve receber o operador do método de seleção de operadores
       Operador currOperador = populadorOperadores.getOperador("DG");
-      currOperador.setListaEntregas(Entregas);
         int op = 0;
         while (op >= 0) {
             System.out.println("Operações:\n\n" + 
@@ -45,7 +42,7 @@ public class App {
             op = inputInt.nextInt();
             switch (op) {
                 case 1: // ESCOLHER OPERADOR
-                    System.out.println("Entre com as inciais do operador");
+                    System.out.println("Entre com as inciais do operador: ");
                     String iniciais = inputString.nextLine();
                     currOperador = populadorOperadores.getOperador(iniciais);
                     System.out.println("Operador selecionado: " + currOperador.getNome());
@@ -85,7 +82,7 @@ public class App {
                             throw new Exception("Morador não encontrado");
                         }
 
-                        Entrega entrega = Entregas.getEntrega(idEntrega);
+                        Entrega entrega = currOperador.getListaEntregas().getEntrega(idEntrega);
 
                         if (entrega == null) {
                             throw new Exception("Entrega não encontrada");
@@ -119,10 +116,10 @@ public class App {
                     }
                     break;
                 case 8: // LISTAR ENTREGAS NAO RETIRADAS
-                    if (Entregas.getNaoRetiradas().size() == 0) {
+                    if (currOperador.getListaEntregas().getNaoRetiradas().size() == 0) {
                         System.out.println("Não há entregas a serem retiradas");
                     }
-                    Entregas.getNaoRetiradas().forEach(e -> System.out.println(e.toString()));
+                    currOperador.getListaEntregas().getNaoRetiradas().forEach(e -> System.out.println(e.toString()));
                     break;
                 case 9: // GERAR RELATÓRIO
                     System.out.println("Insira a data inicial (EX: 01/01/2001): ");
