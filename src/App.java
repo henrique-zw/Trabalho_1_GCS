@@ -12,27 +12,27 @@ import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) {
-      
+
       Scanner inputInt = new Scanner(System.in);
       Scanner inputString = new Scanner(System.in);
-      
+
       // TODO: SÓ PARA TESTES INICIAS
       final ListaMoradores Moradores = new ListaMoradores();
 
       Morador morador01 = new Morador("1234567890", "morador teste", 123);
       Moradores.addMorador(morador01);
       ///////////////////////////////
-      
+
       PopuladorOperadores populadorOperadores = new PopuladorOperadores();
-      
+
       // TODO:currOperador deve receber o operador do método de seleção de operadores
       Operador currOperador = populadorOperadores.getOperador("DG");
         int op = 0;
         String input;
 
         while (op >= 0) {
-            System.out.println("Operações:\n\n" + 
-                               "1) Escolher Operador\n" + 
+            System.out.println("Operações:\n\n" +
+                               "1) Escolher Operador\n" +
                                "2) Incluir Operador\n" +
                                "3) Incluir Morador\n" +
                                "4) Listar Moradores\n" +
@@ -108,8 +108,11 @@ public class App {
 
                     System.out.println("Informe uma breve descrição da entrega");
                     String descTemp = inputString.nextLine();
-                
-                    currOperador.registraEntrega(aptoTemp,descTemp);
+                    try {
+                        currOperador.registraEntrega(aptoTemp, descTemp);
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
                     break;
                 case 6: // REGISTRAR RETIRADA DE PACOTE
                     try {
@@ -147,10 +150,10 @@ public class App {
                         if (entrega.getApto().equals(morador.getApto())) {
                             throw new Exception("O morador de retirada não pertence ao apto da entrega");
                         }
-                      
+
                         currOperador.registrarRetirada(morador,idEntrega);
                         System.out.println("Retirada registrada com sucesso!");
-                      
+
                     } catch (Exception ex) {
                         System.out.println(ex.getMessage());
                     }
