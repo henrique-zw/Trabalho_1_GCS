@@ -3,11 +3,12 @@ package Entities;
 import Colecoes.ListaEntregas;
 import Utils.ManipuladorDeDatas;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 public class Operador {
     private String nome;
@@ -61,26 +62,40 @@ public class Operador {
     //TODO: ESTÁ CLASSE NÃO IMPRIME NADA EM TELA, MENSAGENS DEVEM SER INFORMADAS ATRÁVES DA CLASSE APP
 
     public void registrarRetirada(Morador morador, int id){
-        //TODO: REALIZAR VALIDAÇÕES E PASSOS NECESSÁRIOS DO MÉTODO
-        try{
+//        TODO: REALIZAR VALIDAÇÕES E PASSOS NECESSÁRIOS DO MÉTODO
+        try {
+            if (isNull(morador)) {
+                throw new Exception("Morador não encontrado");
+            }
+            if (listaEntregas.getSize() == 0) {
+                throw new Exception("Não há entregas a serem retirada");
+            }
+            if (id <= 0 || isNull(listaEntregas.getEntrega(id))) {
+                throw new Exception("Entrega não localizada");
+            }
             getListaEntregas().getEntrega(id).setMorador(morador);
             getListaEntregas().getEntrega(id).setDataRetirada(Date.from(Instant.now()));
-        }
-        catch (Exception e){
-            //TODO
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
         }
 
     }
     public void registraEntrega(Integer apto, String descricao){
         //TODO: REALIZAR VALIDAÇÕES E PASSOS NECESSÁRIOS DO MÉTODO
-        try{
+        try {
+            if (isNull(apto) || apto <= 0) {
+                throw new Exception("Necessário informar um apartamento existente");
+            }
+            if (isNull(descricao)) {
+                throw new Exception("Necessário informar uma descrição");
+            }
+
             Operador operador = new Operador(getNome());
             Date dataRecebimento = Date.from(Instant.now());
             Entrega entrega = new Entrega(operador, apto, descricao, dataRecebimento);
             getListaEntregas().addEntrega(entrega);
-        }
-        catch (Exception e){
-            //TODO
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
         }
     }
 
