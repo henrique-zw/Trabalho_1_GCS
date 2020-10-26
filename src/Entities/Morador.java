@@ -42,12 +42,4 @@ public class Morador {
             this.apto = apto;
         }
     }
-
-    @Override
-    public String toString() {
-        StringBuilder lista = new StringBuilder("R. GERAL   - NOME COMPLETO\n");
-            String s = String.format("%s - %s  - APTO: %s\n", getRegistoGeral(), getNome(), getApto());
-            lista.append(s);
-        return lista.toString();
-    }
 }

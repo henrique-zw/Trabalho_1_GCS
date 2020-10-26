@@ -4,9 +4,7 @@ import Entities.Morador;
 import Entities.Operador;
 import Populadores.PopuladorMoradores;
 import Populadores.PopuladorOperadores;
-import Utils.ManipuladorDeDatas;
 import java.util.InputMismatchException;
-import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -22,9 +20,9 @@ public class App {
         populadorOperadores.populaEntregas(listaMoradores);
         Operador currOperador = populadorOperadores.getOperador("DG");
 
-        int operacao = 0;
+        int op = 0;
 
-        while (operacao >= 0) {
+        while (op >= 0) {
             System.out.println("Operações:\n\n" +
                     "1) Escolher Operador\n" +
                     "2) Incluir Operador\n" +
@@ -38,9 +36,9 @@ public class App {
                     "(-1 para Sair)");
 
             System.out.println("\nInforme uma opcao:\n");
-            operacao = inputInt.nextInt();
+            op = inputInt.nextInt();
 
-            switch (operacao) {
+            switch (op) {
                 case -1: // SAIR
                     System.out.println("Saindo");
 
@@ -92,23 +90,12 @@ public class App {
 
                     while (rg.length()!=10) {
                         System.out.println("O RG é composto por 10 dígitos.\nTente novamente:");
-
                         rg = inputString.nextLine();
                         inputString = new Scanner(System.in);
                     }
 
                     System.out.print("\nNumero apartamento: ");
-                    input = inputString.nextLine();
-                    int ape = 0;
-                    try{
-                        ape = Integer.parseInt(input);
-                        if(ape <= 0){
-                            throw new Exception();
-                        }
-                    } catch (Exception e){
-                        System.out.println("Apartamento nao localizado");
-                        break;
-                    }
+                    int ape = inputInt.nextInt();
 
                     Morador newMorador = new Morador(rg, nomeMorador, ape);
 
@@ -133,6 +120,7 @@ public class App {
                 case 5: // REGISTRAR NOVA ENTREGA
                     System.out.println("Informe o apartamento de destino da entrega:");
                     int aptoTemp;
+
                     try {
                         aptoTemp = inputInt.nextInt();
 
@@ -243,20 +231,6 @@ public class App {
                     String dataFim = inputString.nextLine();
                     inputString = new Scanner(System.in);
 
-                    String dataFim = "";
-                    while(dataFinal == null){
-                        try{
-                            System.out.println("Insira a data final (EX: 01/01/2001): ");
-                            dataFim = inputString.nextLine();
-                            dataFinal = ManipuladorDeDatas.StringToDate(dataFim);
-                        } catch (Exception e){
-                            System.out.println("Insira uma data final valida");
-                        }
-                    }
-                    if(dataFinal.before(dataInicial)) {
-                        System.out.println("Data final nao pode ser maior do que a data inicial");
-                        break;
-                    }
                     String relatorio = currOperador.getRelatorio(dataIni, dataFim);
                     System.out.println(relatorio);
 
