@@ -4,7 +4,6 @@ import Entities.Morador;
 import Entities.Operador;
 import Populadores.PopuladorMoradores;
 import Populadores.PopuladorOperadores;
-
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
