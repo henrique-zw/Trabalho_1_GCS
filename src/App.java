@@ -58,7 +58,11 @@ public class App {
                 case 1: // ESCOLHER OPERADOR
                     System.out.println("Entre com as inciais do operador: ");
                     String iniciais = inputString.nextLine();
-                    currOperador = populadorOperadores.getOperador(iniciais);
+                    try{
+                        currOperador = populadorOperadores.getOperador(iniciais);
+                    } catch (Exception e){
+                        System.out.println(e.getMessage());
+                    }
                     //TODO AQUI TEM Q VERIFICAR SE REALMENTE EXISTE O OPERADOR OU NAO
                     System.out.println("Operador selecionado: " + currOperador.getNome());
                     break;
@@ -68,8 +72,12 @@ public class App {
                     populadorOperadores.addOperador(nomeOperador);
                     break;
                 case 3: // INCLUIR MORADOR
-                    System.out.print("\nNome completo do novo morador: ");
-                    String nomeMorador = inputString.nextLine();
+                    String nomeMorador;
+                    do{
+                        System.out.print("\nNome completo do novo morador: ");
+                        nomeMorador = inputString.nextLine();
+                    } while (nomeMorador.split(" ").length < 2);
+
                     String rg = null;
                     do {
                         System.out.print("\nNumero Registro Geral: ");
@@ -85,6 +93,7 @@ public class App {
                         }
                     } catch (Exception e){
                         System.out.println("Apartamento nao localizado");
+                        break;
                     }
 
                     Morador newMorador = new Morador(rg, nomeMorador, ape);
