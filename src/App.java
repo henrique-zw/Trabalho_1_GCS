@@ -71,7 +71,11 @@ public class App {
                         inputString = new Scanner(System.in);
                     }
                     
-                    populadorOperadores.addOperador(nomeOperador);
+                    if (nomeOperador != null && nomeOperador.length() > 0) {
+                        populadorOperadores.addOperador(nomeOperador);
+                    } else {
+                        System.out.println("Nome inválido");
+                    }
                     
                     break;
                 case 3: // INCLUIR MORADOR
