@@ -1,6 +1,7 @@
 package Entities;
 
-import Utils.Tools;
+import Utils.ManipuladorDeDatas;
+
 import java.text.ParseException;
 import java.util.Date;
 
@@ -77,6 +78,7 @@ public class Entrega {
     public Date getDataRetirada() {
         return dataRetirada;
     }
+
     public void setDataRetirada(Date dataRetirada) {
         if(dataRetirada != null) {
             this.dataRetirada = dataRetirada;
@@ -90,13 +92,13 @@ public class Entrega {
         String dataRetirada = null;
 
         try {
-            dataRecebimento = Tools.dateToString(getDataRecebimento());
-            dataRetirada = getDataRetirada() == null ? "-" : Tools.dateToString(getDataRetirada());
+            dataRecebimento = ManipuladorDeDatas.dateToString(getDataRecebimento());
+            dataRetirada = getDataRetirada() == null ? "-" : ManipuladorDeDatas.dateToString(getDataRetirada());
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        return String.format("ID: %d\nDESCRIÇÃO: %s\nAPTO: %s\nRECEBIMENTO: %s\nRETIRADA: %s\n",
+        return String.format("ID: %d\nDESCRIÇÃO: %s\nAPTO: %s\nRECEBIMENTO: %s\nENTREGA: %s\n",
                 getId(), getDescricao(), getApto(), dataRecebimento, dataRetirada);
     }
 }
