@@ -5,103 +5,168 @@ import Entities.Operador;
 import Populadores.PopuladorMoradores;
 import Populadores.PopuladorOperadores;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) {
 
-      Scanner inputInt = new Scanner(System.in);
-      Scanner inputString = new Scanner(System.in);
+        Scanner inputInt = new Scanner(System.in);
+        Scanner inputString = new Scanner(System.in);
 
-      // TODO: SÓ PARA TESTES INICIAS
-//      final ListaMoradores Moradores = new ListaMoradores();
+        PopuladorOperadores populadorOperadores = new PopuladorOperadores();
+        ListaMoradores listaMoradores = new PopuladorMoradores().getListaMoradores();
 
-//      Morador morador01 = new Morador("1234567890", "morador teste", 123);
-//      Moradores.addMorador(morador01);
-      ///////////////////////////////
-
-      PopuladorOperadores populadorOperadores = new PopuladorOperadores();
-       ListaMoradores listaMoradores = new PopuladorMoradores().getListaMoradores();
         populadorOperadores.populaEntregas(listaMoradores);
-      // TODO:currOperador deve receber o operador do método de seleção de operadores
-      Operador currOperador = populadorOperadores.getOperador("DG");
+        Operador currOperador = populadorOperadores.getOperador("DG");
+
         int op = 0;
+
         while (op >= 0) {
             System.out.println("Operações:\n\n" +
-                               "1) Escolher Operador\n" +
-                               "2) Incluir Operador\n" +
-                               "3) Incluir Morador\n" +
-                               "4) Listar Moradores\n" +
-                               "5) Registrar Nova Entrega\n" +
-                               "6) Registrar Retirada de Pacote\n" +
-                               "7) Procurar Entrega via Descricao\n" +
-                               "8) Listar Entregas Não Retiradas\n" +
-                               "9) Gerar Relatório\n\n" +
-                               "(-1 para Sair)");
+                    "1) Escolher Operador\n" +
+                    "2) Incluir Operador\n" +
+                    "3) Incluir Morador\n" +
+                    "4) Listar Moradores\n" +
+                    "5) Registrar Nova Entrega\n" +
+                    "6) Registrar Retirada de Pacote\n" +
+                    "7) Procurar Entrega via Descricao\n" +
+                    "8) Listar Entregas Não Retiradas\n" +
+                    "9) Gerar Relatório\n\n" +
+                    "(-1 para Sair)");
 
             System.out.println("\nInforme uma opcao:\n");
             op = inputInt.nextInt();
+
             switch (op) {
                 case -1: // SAIR
                     System.out.println("Saindo");
+
                     break;
                 case 1: // ESCOLHER OPERADOR
+                    System.out.println(populadorOperadores.listarOperadores());
+
                     System.out.println("Entre com as inciais do operador: ");
-                    String iniciais = inputString.nextLine();
-                    currOperador = populadorOperadores.getOperador(iniciais);
-                    //TODO AQUI TEM Q VERIFICAR SE REALMENTE EXISTE O OPERADOR OU NAO
-                    System.out.println("Operador selecionado: " + currOperador.getNome());
+                    String iniciais = inputString.next();
+
+                    if(populadorOperadores.getOperador(iniciais) != null){
+                        currOperador = populadorOperadores.getOperador(iniciais);
+                    }
+                    else {
+                        System.out.println("Operador não encontrado, tente novamente.\n\n");
+                    }
+
+                    System.out.println("Operador atual: " + currOperador.getNome());
+
                     break;
                 case 2: // INCLUIR NOVO OPERADOR
                     System.out.print("\nNome completo do novo operador: ");
-                    String nomeOperador = inputString.nextLine();
-                    populadorOperadores.addOperador(nomeOperador);
+                    String nomeOperador = inputString.next();
+
+                    do {
+                        System.out.println("O nome deve conter no máximo 35 caractéres.\nTente novamente:");
+                        nomeOperador = inputString.next();
+
+                    }while (nomeOperador.length() > 35);
+
                     break;
                 case 3: // INCLUIR MORADOR
                     System.out.print("\nNome completo do novo morador: ");
-                    String nomeMorador = inputString.nextLine();
-                    String rg = null;
+                    String nomeMorador = inputString.next();
+
                     do {
-                        System.out.print("\nNumero Registro Geral: ");
-                        rg = inputString.nextLine();
+                        System.out.println("O nome deve conter no máximo 35 caractéres.\nTente novamente:");
+                        nomeMorador = inputString.nextLine();
+
+                    }while (nomeMorador.length() > 35);
+
+                    System.out.print("\nNumero Registro Geral: ");
+                    String rg = inputString.next();
+
+                    do {
+                        System.out.println("O RG é composto por 10 dígitos.\nTente novamente:");
+                        rg = inputString.next();
                     } while (rg.length()!=10);
+
                     System.out.print("\nNumero apartamento: ");
                     int ape = inputInt.nextInt();
 
                     Morador newMorador = new Morador(rg, nomeMorador, ape);
-                    listaMoradores.addMorador(newMorador);
+
+                    if(listaMoradores.addMorador(newMorador)){
+                        System.out.println("Morador adicionado com sucesso.\n");
+                        System.out.println(listaMoradores.getMorador(rg));
+                    }
+                    else {
+                        System.out.println("Algo deu errado, por favor tente novamente.");
+                    }
+
                     break;
                 case 4: // LISTAR MORADORES
-                    System.out.println(listaMoradores.toString());
+                    if(listaMoradores.getSize() > 0){
+                        System.out.println(listaMoradores.toString());
+                    }
+                    else {
+                        System.out.println("Não existem moradores registrados.");
+                    }
+
                     break;
                 case 5: // REGISTRAR NOVA ENTREGA
-                    System.out.println("Informe o apartamento de destino da entrega");
-                    int aptoTemp = inputInt.nextInt();
+                    System.out.println("Informe o apartamento de destino da entrega:");
+                    int aptoTemp;
 
-                    System.out.println("Informe uma breve descrição da entrega");
-                    String descTemp = inputString.nextLine();
                     try {
-                        currOperador.registraEntrega(aptoTemp, descTemp);
+                        aptoTemp = inputInt.nextInt();
+
+                    }catch (InputMismatchException e){
+                        System.out.println("Número inválido, operação encerrada.");
+                        return;
+                    }
+
+                    System.out.println("Informe uma breve descrição da entrega:");
+                    String descTemp = inputString.next();
+
+                    do {
+                        System.out.println("A descrição deve conter no máximo 35 caractéres.\nTente novamente:");
+                        descTemp = inputString.next();
+
+                    }while (descTemp.length() > 35);
+
+                    try {
+                        if(currOperador.registraEntrega(aptoTemp, descTemp)){
+                            int id = currOperador.getListaEntregas().getSize();
+                            System.out.println("Entrega registrada:");
+                            System.out.println(currOperador.getListaEntregas().getEntrega(id));
+                        }
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
+
                     break;
                 case 6: // REGISTRAR RETIRADA DE PACOTE
                     try {
-                        System.out.println("Insira o número da entrega que desejas retirar");
+                        System.out.println("informe a descrição do objeto a ser retirado:");
+                        String descricao = inputString.next();
+
+                        List<Entrega> listAux = currOperador.procuraEntregaPorDescricao(descricao);
+                        for (Entrega en : listAux){
+                            System.out.println(en);
+                        }
+
+                        System.out.println("Insira o número da entrega que desejas retirar:");
                         int idEntrega = inputInt.nextInt();
 
-                        System.out.println("Insira o RG do morador que vai realizar a retirada");
-                        String rgMorador = inputString.nextLine();
+                        System.out.println("Insira o RG do morador que vai realizar a retirada:");
+                        String rgMorador = inputString.next();
 
                         if (rgMorador == null || rgMorador.trim().isEmpty()) {
-                            throw new Exception("Registro Geral inválido");
+                            throw new Exception("Registro Geral inválido.");
                         }
 
                         Morador morador = listaMoradores.getMorador(rgMorador);
                         if (morador == null) {
-                            throw new Exception("Morador não encontrado");
+                            throw new Exception("Morador não encontrado.");
                         }
 
                         Entrega entrega = currOperador.getListaEntregas().getEntrega(idEntrega);
@@ -114,7 +179,7 @@ public class App {
                             throw new Exception("Esta entrega já foi retirada");
                         }
 
-                        if (entrega.getApto().equals(morador.getApto())) {
+                        if (!entrega.getApto().equals(morador.getApto())) {
                             throw new Exception("O morador de retirada não pertence ao apto da entrega");
                         }
 
@@ -124,34 +189,41 @@ public class App {
                     } catch (Exception ex) {
                         System.out.println(ex.getMessage());
                     }
+
                     break;
                 case 7: // PROCURAR ENTREGA VIA DESCRICAO
                     System.out.println("Informe a descrição da entrega que deseja encontrar: ");
-                    String descricao = inputString.nextLine();
+                    String descricao = inputString.next();
+
                     List<Entrega> list = currOperador.procuraEntregaPorDescricao(descricao);
+
                     if(list != null){
                         System.out.println("Entregas encontradas: ");
                         System.out.println(list.toString());
                     }
                     else {
-                        System.out.println("Nada consta.");
+                        System.out.println("Nenhuma entrega encontrada coma descrição informada.");
                     }
+
                     break;
                 case 8: // LISTAR ENTREGAS NAO RETIRADAS
                     if (currOperador.getListaEntregas().getNaoRetiradas().size() == 0) {
                         System.out.println("Não há entregas a serem retiradas");
                     }
+
                     currOperador.getListaEntregas().getNaoRetiradas().forEach(e -> System.out.println(e.toString()));
+
                     break;
                 case 9: // GERAR RELATÓRIO
                     System.out.println("Insira a data inicial (EX: 01/01/2001): ");
-                    String dataIni = inputString.nextLine();
+                    String dataIni = inputString.next();
 
                     System.out.println("Insira a data final (EX: 01/01/2001): ");
-                    String dataFim = inputString.nextLine();
+                    String dataFim = inputString.next();
 
                     String relatorio = currOperador.getRelatorio(dataIni, dataFim);
                     System.out.println(relatorio);
+
                     break;
                 default:
                     System.out.println("Opção não encontrada, tente novamente.");

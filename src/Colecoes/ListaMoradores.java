@@ -1,8 +1,6 @@
 package Colecoes;
 
 import Entities.Morador;
-import Entities.Operador;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,8 +11,14 @@ public class ListaMoradores {
         this.listaMoradores = new ArrayList<>();
     }
 
-    public void addMorador(Morador morador){
-        listaMoradores.add(morador);
+    public boolean addMorador(Morador morador){
+        try {
+            listaMoradores.add(morador);
+            return true;
+        }
+        catch (Exception e){
+            return false;
+        }
     }
 
     public Morador getMorador(String rg){
@@ -27,11 +31,15 @@ public class ListaMoradores {
         return mAux;
     }
 
+    public int getSize(){
+        return listaMoradores.size();
+    }
+
     @Override
     public String toString() {
-        StringBuilder lista = new StringBuilder();
+        StringBuilder lista = new StringBuilder("R. GERAL   - NOME COMPLETO\n");
         for (Morador mo: listaMoradores) {
-            String s = String.format("NOME: %s - APTO: %s\n", mo.getNome(), mo.getApto());
+            String s = String.format("%s - %s  - APTO: %s\n", mo.getRegistoGeral(), mo.getNome(), mo.getApto());
             lista.append(s);
         }
         return lista.toString();
