@@ -6,6 +6,7 @@ import Colecoes.ListaOperadores;
 import Entities.Entrega;
 import Entities.Morador;
 import Entities.Operador;
+
 import java.util.Date;
 
 public class PopuladorOperadores {
@@ -33,12 +34,14 @@ public class PopuladorOperadores {
     }
 
     public Operador getOperador(String iniciais) {
-        if(getListaOperadores().getOperador(iniciais.toUpperCase()) != null){
-            Operador operador = getListaOperadores().getOperador(iniciais.toUpperCase());
+        Operador operador = getListaOperadores().getOperador(iniciais);
+
+        try{
             operador.setListaEntregas(getListaEntregas());
-            return operador;
+        } catch (Exception e){
+            throw new RuntimeException("Operador nao localizado");
         }
-        return null;
+        return operador;
     }
 
     public ListaOperadores getListaOperadores() {
@@ -58,10 +61,6 @@ public class PopuladorOperadores {
 
     }
 
-    public String listarOperadores(){
-        return getListaOperadores().toString();
-    }
-
     private ListaEntregas getListaEntregas() {
         return listaEntregas;
     }
@@ -71,9 +70,7 @@ public class PopuladorOperadores {
         Morador morador2 = listaMoradores.getMorador("0000000011");
         Morador morador3 = listaMoradores.getMorador("0000000012");
         Morador morador4 = listaMoradores.getMorador("0000000013");
-
         Entrega entrega;
-
         entrega = new Entrega(listaOperadores.getOperador("DG"), morador1.getApto(), "Caixa", new Date());
         listaEntregas.addEntrega(entrega);
         entrega = new Entrega(listaOperadores.getOperador("DG"), morador2.getApto(), "Encomenda Merdado Livre", new Date("10/09/2020"));

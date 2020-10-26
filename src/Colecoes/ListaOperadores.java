@@ -1,6 +1,7 @@
 package Colecoes;
 
 import Entities.Operador;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,15 +24,5 @@ public class ListaOperadores {
             }
         }
         return oAux;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder lista = new StringBuilder("INICIAS  -   NOME\n");
-        for (Operador op: listaOperadores) {
-            String s = String.format("  %s     -   %s\n", op.getIniciais(), op.getNome());
-            lista.append(s);
-        }
-        return lista.toString();
     }
 }
