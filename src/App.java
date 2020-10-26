@@ -1,8 +1,8 @@
 import Colecoes.ListaMoradores;
-import Colecoes.ListaOperadores;
 import Entities.Entrega;
 import Entities.Morador;
 import Entities.Operador;
+import Populadores.PopuladorMoradores;
 import Populadores.PopuladorOperadores;
 import Utils.ManipuladorDeDatas;
 
@@ -17,14 +17,15 @@ public class App {
       Scanner inputString = new Scanner(System.in);
 
       // TODO: SÓ PARA TESTES INICIAS
-      final ListaMoradores Moradores = new ListaMoradores();
+//      final ListaMoradores Moradores = new ListaMoradores();
 
-      Morador morador01 = new Morador("1234567890", "morador teste", 123);
-      Moradores.addMorador(morador01);
+//      Morador morador01 = new Morador("1234567890", "morador teste", 123);
+//      Moradores.addMorador(morador01);
       ///////////////////////////////
 
       PopuladorOperadores populadorOperadores = new PopuladorOperadores();
-
+       ListaMoradores listaMoradores = new PopuladorMoradores().getListaMoradores();
+        populadorOperadores.populaEntregas(listaMoradores);
       // TODO:currOperador deve receber o operador do método de seleção de operadores
       Operador currOperador = populadorOperadores.getOperador("DG");
         int op = 0;
@@ -87,10 +88,10 @@ public class App {
                     }
 
                     Morador newMorador = new Morador(rg, nomeMorador, ape);
-                    Moradores.addMorador(newMorador);
+                    listaMoradores.addMorador(newMorador);
                     break;
                 case 4: // LISTAR MORADORES
-                    System.out.println(Moradores.toString());
+                    System.out.println(listaMoradores.toString());
                     break;
                 case 5: // REGISTRAR NOVA ENTREGA
                     System.out.println("Informe o apartamento de destino da entrega");
@@ -132,7 +133,7 @@ public class App {
                             throw new Exception("Registro Geral inválido");
                         }
 
-                        Morador morador = Moradores.getMorador(rgMorador);
+                        Morador morador = listaMoradores.getMorador(rgMorador);
                         if (morador == null) {
                             throw new Exception("Morador não encontrado");
                         }
