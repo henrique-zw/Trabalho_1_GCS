@@ -48,7 +48,8 @@ public class App {
                     System.out.println(populadorOperadores.listarOperadores());
 
                     System.out.println("Entre com as inciais do operador: ");
-                    String iniciais = inputString.next();
+                    String iniciais = inputString.nextLine();
+                    inputString = new Scanner(System.in).reset();
 
                     if(populadorOperadores.getOperador(iniciais) != null){
                         currOperador = populadorOperadores.getOperador(iniciais);
@@ -62,32 +63,37 @@ public class App {
                     break;
                 case 2: // INCLUIR NOVO OPERADOR
                     System.out.print("\nNome completo do novo operador: ");
-                    String nomeOperador = inputString.next();
+                    String nomeOperador = inputString.nextLine();
+                    inputString = new Scanner(System.in);
 
-                    do {
+                    while (nomeOperador.length() > 35) {
                         System.out.println("O nome deve conter no máximo 35 caractéres.\nTente novamente:");
-                        nomeOperador = inputString.next();
-
-                    }while (nomeOperador.length() > 35);
+                        nomeOperador = inputString.nextLine();
+                        inputString = new Scanner(System.in);
+                    }
 
                     break;
                 case 3: // INCLUIR MORADOR
                     System.out.print("\nNome completo do novo morador: ");
-                    String nomeMorador = inputString.next();
+                    String nomeMorador = inputString.nextLine();
+                    inputString = new Scanner(System.in);
 
-                    do {
+                    while (nomeMorador.length() > 35) {
                         System.out.println("O nome deve conter no máximo 35 caractéres.\nTente novamente:");
                         nomeMorador = inputString.nextLine();
+                        inputString = new Scanner(System.in);
 
-                    }while (nomeMorador.length() > 35);
+                    }
 
                     System.out.print("\nNumero Registro Geral: ");
-                    String rg = inputString.next();
+                    String rg = inputString.nextLine();
+                    inputString = new Scanner(System.in);
 
-                    do {
+                    while (rg.length()!=10) {
                         System.out.println("O RG é composto por 10 dígitos.\nTente novamente:");
-                        rg = inputString.next();
-                    } while (rg.length()!=10);
+                        rg = inputString.nextLine();
+                        inputString = new Scanner(System.in);
+                    }
 
                     System.out.print("\nNumero apartamento: ");
                     int ape = inputInt.nextInt();
@@ -125,13 +131,14 @@ public class App {
                     }
 
                     System.out.println("Informe uma breve descrição da entrega:");
-                    String descTemp = inputString.next();
+                    String descTemp = inputString.nextLine();
+                    inputString = new Scanner(System.in);
 
-                    do {
+                    while (descTemp.length() > 35){
                         System.out.println("A descrição deve conter no máximo 35 caractéres.\nTente novamente:");
-                        descTemp = inputString.next();
-
-                    }while (descTemp.length() > 35);
+                        descTemp = inputString.nextLine();
+                        inputString = new Scanner(System.in);
+                    }
 
                     try {
                         if(currOperador.registraEntrega(aptoTemp, descTemp)){
@@ -147,7 +154,7 @@ public class App {
                 case 6: // REGISTRAR RETIRADA DE PACOTE
                     try {
                         System.out.println("informe a descrição do objeto a ser retirado:");
-                        String descricao = inputString.next();
+                        String descricao = inputString.nextLine();
 
                         List<Entrega> listAux = currOperador.procuraEntregaPorDescricao(descricao);
                         for (Entrega en : listAux){
@@ -158,7 +165,8 @@ public class App {
                         int idEntrega = inputInt.nextInt();
 
                         System.out.println("Insira o RG do morador que vai realizar a retirada:");
-                        String rgMorador = inputString.next();
+                        String rgMorador = inputString.nextLine();
+                        inputString = new Scanner(System.in);
 
                         if (rgMorador == null || rgMorador.trim().isEmpty()) {
                             throw new Exception("Registro Geral inválido.");
@@ -193,7 +201,8 @@ public class App {
                     break;
                 case 7: // PROCURAR ENTREGA VIA DESCRICAO
                     System.out.println("Informe a descrição da entrega que deseja encontrar: ");
-                    String descricao = inputString.next();
+                    String descricao = inputString.nextLine();
+                    inputString = new Scanner(System.in);
 
                     List<Entrega> list = currOperador.procuraEntregaPorDescricao(descricao);
 
@@ -216,10 +225,12 @@ public class App {
                     break;
                 case 9: // GERAR RELATÓRIO
                     System.out.println("Insira a data inicial (EX: 01/01/2001): ");
-                    String dataIni = inputString.next();
+                    String dataIni = inputString.nextLine();
+                    inputString = new Scanner(System.in);
 
                     System.out.println("Insira a data final (EX: 01/01/2001): ");
-                    String dataFim = inputString.next();
+                    String dataFim = inputString.nextLine();
+                    inputString = new Scanner(System.in);
 
                     String relatorio = currOperador.getRelatorio(dataIni, dataFim);
                     System.out.println(relatorio);
