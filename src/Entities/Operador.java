@@ -1,14 +1,13 @@
 package Entities;
 
 import Colecoes.ListaEntregas;
-import Utils.ManipuladorDeDatas;
+import Utils.Tools;
 import java.time.Instant;
-import java.util.*;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
 
 public class Operador {
     private String nome;
@@ -58,11 +57,7 @@ public class Operador {
         this.listaEntregas = listaEntregas;
     }
 
-    //TODO: CRIAR MÉTODOS NECESSÁRIOS
-    //TODO: ESTÁ CLASSE NÃO IMPRIME NADA EM TELA, MENSAGENS DEVEM SER INFORMADAS ATRÁVES DA CLASSE APP
-
     public void registrarRetirada(Morador morador, int id){
-//        TODO: REALIZAR VALIDAÇÕES E PASSOS NECESSÁRIOS DO MÉTODO
         try {
             if (isNull(morador)) {
                 throw new Exception("Morador não encontrado");
@@ -80,8 +75,8 @@ public class Operador {
         }
 
     }
-    public void registraEntrega(Integer apto, String descricao){
-        //TODO: REALIZAR VALIDAÇÕES E PASSOS NECESSÁRIOS DO MÉTODO
+
+    public boolean registraEntrega(Integer apto, String descricao){
         try {
             if (isNull(apto) || apto <= 0) {
                 throw new Exception("Necessário informar um apartamento existente");
@@ -94,6 +89,7 @@ public class Operador {
             Date dataRecebimento = Date.from(Instant.now());
             Entrega entrega = new Entrega(operador, apto, descricao, dataRecebimento);
             getListaEntregas().addEntrega(entrega);
+            return true;
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -111,13 +107,17 @@ public class Operador {
     }
 
     public String getRelatorio(String dataInicial, String dataFinal){
-        //TODO: CRIAR UM PACKAGE E UMA CLASSE UTIL COM MÉTODOS PARA TRABALHAR COM DATE
         try {
-            Date dataIni = ManipuladorDeDatas.StringToDate(dataInicial);
-            Date dataFim = ManipuladorDeDatas.StringToDate(dataFinal);
+            Date dataIni = Tools.StringToDate(dataInicial);
+            Date dataFim = Tools.addOneDay(Tools.StringToDate(dataFinal));
 
             StringBuilder lista = new StringBuilder();
-            String s = "Entrega | Data/hora | Descrição                | Apto | Operador | Retirada | Morador \n";
+            StringBuilder descricao = new StringBuilder();
+            StringBuilder apto = new StringBuilder();
+            StringBuilder dtRetirada = new StringBuilder();
+            StringBuilder stbMorador = new StringBuilder();
+
+            String s = "ENTREGA |      DATA/HORA      |             DESCRIÇÃO              | APTO | OPERADOR |      RETIRADA       | MORADOR \n\n";
             lista.append(s);
 
             for (int i = 1; i < getListaEntregas().getSize()+1; i++) {
@@ -125,26 +125,47 @@ public class Operador {
                 Date dataRecebimento = getListaEntregas().getEntrega(i).getDataRecebimento();
                 Date dataRetirada = null;
 
-                if (getListaEntregas().getEntrega(i).getDataRetirada() != null)
+                if (getListaEntregas().getEntrega(i).getDataRetirada() != null) {
                     dataRetirada = getListaEntregas().getEntrega(i).getDataRetirada();
+                }
+                else {
+                    dtRetirada.append(" ".repeat(Math.max(0, 19 - descricao.length())));
+                }
 
                 if((dataRecebimento.after(dataIni) || dataRecebimento.equals(dataIni)) &&
                         (dataRecebimento.before(dataFim) || dataRecebimento.equals(dataFim))){
-                    String sDataRecebimento = ManipuladorDeDatas.dateToString(dataRecebimento);
-                    String sDataRetirada = dataRetirada != null ? ManipuladorDeDatas.dateToString(dataRecebimento) : "-";
-                    String sMorador = getListaEntregas().getEntrega(i).getMorador() != null ? getListaEntregas().getEntrega(i).getMorador().getNome() : "-";
-                    s = String.format("   %d    | %s | %s          | %s | %s | %s | %s\n",
-                            getListaEntregas().getEntrega(i).getId(), sDataRecebimento,getListaEntregas().getEntrega(i).getDescricao(), getListaEntregas().getEntrega(i).getApto(), getListaEntregas().getEntrega(i).getOperador().getIniciais(),
+                    descricao.append(getListaEntregas().getEntrega(i).getDescricao().trim());
+                    descricao.append(" ".repeat(Math.max(0, 35 - descricao.length())));
+                    apto.append(getListaEntregas().getEntrega(i).getApto().toString());
+
+                    for (int j = apto.length() ; j <4 ; j++){
+                        apto.insert(0,"0");
+                    }
+
+                    String sDataRecebimento = Tools.dateToString(dataRecebimento);
+                    String sDataRetirada = dataRetirada != null ? Tools.dateToString(dataRecebimento) : dtRetirada.toString();
+                    String sMorador = getListaEntregas().getEntrega(i).getMorador() != null ? getListaEntregas().getEntrega(i).getMorador().getNome() : stbMorador.append(" ".repeat(Math.max(0, 35 - descricao.length()))).toString();
+
+                    s = String.format("   %d    | %s | %s| %s |    %s    | %s | %s\n",
+                            getListaEntregas().getEntrega(i).getId(), sDataRecebimento, descricao.toString(), apto, getListaEntregas().getEntrega(i).getOperador().getIniciais(),
                             sDataRetirada, sMorador);
                     lista.append(s);
                     lista.append("\n");
+                    descricao.delete(0,descricao.length());
+                    apto.delete(0,apto.length());
+                    dtRetirada.delete(0,dtRetirada.length());
+                    stbMorador.delete(0,stbMorador.length());
                 }
             }
-            return lista.toString();
-        }
-        catch (Exception e){
+            if(lista.length() > 1){
+                return lista.toString();
+            }
+            else{
+                return "Nenhuma entrega registrada nesse período";
+            }
+
+        } catch (Exception e){
             return e.toString();
         }
-        //return null;
     }
 }
