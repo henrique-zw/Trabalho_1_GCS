@@ -35,12 +35,7 @@ public class PopuladorOperadores {
 
     public Operador getOperador(String iniciais) {
         Operador operador = getListaOperadores().getOperador(iniciais);
-
-        try{
-            operador.setListaEntregas(getListaEntregas());
-        } catch (Exception e){
-            throw new RuntimeException("Operador nao localizado");
-        }
+        operador.setListaEntregas(getListaEntregas());
         return operador;
     }
 

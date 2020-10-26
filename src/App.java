@@ -4,9 +4,7 @@ import Entities.Morador;
 import Entities.Operador;
 import Populadores.PopuladorMoradores;
 import Populadores.PopuladorOperadores;
-import Utils.ManipuladorDeDatas;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -29,8 +27,6 @@ public class App {
       // TODO:currOperador deve receber o operador do método de seleção de operadores
       Operador currOperador = populadorOperadores.getOperador("DG");
         int op = 0;
-        String input;
-
         while (op >= 0) {
             System.out.println("Operações:\n\n" +
                                "1) Escolher Operador\n" +
@@ -45,12 +41,7 @@ public class App {
                                "(-1 para Sair)");
 
             System.out.println("\nInforme uma opcao:\n");
-            try{
-                input =inputString.nextLine();
-                op = Integer.parseInt(input);
-            } catch (Exception e){
-                op = 0;
-            }
+            op = inputInt.nextInt();
             switch (op) {
                 case -1: // SAIR
                     System.out.println("Saindo");
@@ -58,11 +49,7 @@ public class App {
                 case 1: // ESCOLHER OPERADOR
                     System.out.println("Entre com as inciais do operador: ");
                     String iniciais = inputString.nextLine();
-                    try{
-                        currOperador = populadorOperadores.getOperador(iniciais);
-                    } catch (Exception e){
-                        System.out.println(e.getMessage());
-                    }
+                    currOperador = populadorOperadores.getOperador(iniciais);
                     //TODO AQUI TEM Q VERIFICAR SE REALMENTE EXISTE O OPERADOR OU NAO
                     System.out.println("Operador selecionado: " + currOperador.getNome());
                     break;
@@ -72,29 +59,15 @@ public class App {
                     populadorOperadores.addOperador(nomeOperador);
                     break;
                 case 3: // INCLUIR MORADOR
-                    String nomeMorador;
-                    do{
-                        System.out.print("\nNome completo do novo morador: ");
-                        nomeMorador = inputString.nextLine();
-                    } while (nomeMorador.split(" ").length < 2);
-
+                    System.out.print("\nNome completo do novo morador: ");
+                    String nomeMorador = inputString.nextLine();
                     String rg = null;
                     do {
                         System.out.print("\nNumero Registro Geral: ");
                         rg = inputString.nextLine();
                     } while (rg.length()!=10);
                     System.out.print("\nNumero apartamento: ");
-                    input = inputString.nextLine();
-                    int ape = 0;
-                    try{
-                        ape = Integer.parseInt(input);
-                        if(ape <= 0){
-                            throw new Exception();
-                        }
-                    } catch (Exception e){
-                        System.out.println("Apartamento nao localizado");
-                        break;
-                    }
+                    int ape = inputInt.nextInt();
 
                     Morador newMorador = new Morador(rg, nomeMorador, ape);
                     listaMoradores.addMorador(newMorador);
@@ -104,17 +77,7 @@ public class App {
                     break;
                 case 5: // REGISTRAR NOVA ENTREGA
                     System.out.println("Informe o apartamento de destino da entrega");
-                    input = inputString.nextLine();
-                    int aptoTemp = 0;
-
-                    try{
-                        aptoTemp = Integer.parseInt(input);
-                        if(aptoTemp <= 0){
-                            throw new Exception();
-                        }
-                    } catch (Exception e){
-                        System.out.println("Apartamento nao localizado");
-                    }
+                    int aptoTemp = inputInt.nextInt();
 
                     System.out.println("Informe uma breve descrição da entrega");
                     String descTemp = inputString.nextLine();
@@ -127,13 +90,7 @@ public class App {
                 case 6: // REGISTRAR RETIRADA DE PACOTE
                     try {
                         System.out.println("Insira o número da entrega que desejas retirar");
-                        input = inputString.nextLine();
-                        int idEntrega;
-                        try{
-                            idEntrega = Integer.parseInt(input);
-                        } catch (Exception e){
-                            throw new Exception("Entrega nao localizada");
-                        }
+                        int idEntrega = inputInt.nextInt();
 
                         System.out.println("Insira o RG do morador que vai realizar a retirada");
                         String rgMorador = inputString.nextLine();
@@ -187,32 +144,12 @@ public class App {
                     currOperador.getListaEntregas().getNaoRetiradas().forEach(e -> System.out.println(e.toString()));
                     break;
                 case 9: // GERAR RELATÓRIO
-                    String dataIni = "";
-                    Date dataInicial  = null, dataFinal = null;
-                    while(dataInicial == null){
-                        try{
-                            System.out.println("Insira a data inicial (EX: 01/01/2001): ");
-                            dataIni = inputString.nextLine();
-                            dataInicial = ManipuladorDeDatas.StringToDate(dataIni);
-                        } catch (Exception e){
-                            System.out.println("Insira uma data inicial valida");
-                        }
-                    }
+                    System.out.println("Insira a data inicial (EX: 01/01/2001): ");
+                    String dataIni = inputString.nextLine();
 
-                    String dataFim = "";
-                    while(dataFinal == null){
-                        try{
-                            System.out.println("Insira a data final (EX: 01/01/2001): ");
-                            dataFim = inputString.nextLine();
-                            dataFinal = ManipuladorDeDatas.StringToDate(dataFim);
-                        } catch (Exception e){
-                            System.out.println("Insira uma data final valida");
-                        }
-                    }
-                    if(dataFinal.before(dataInicial)) {
-                        System.out.println("Data final nao pode ser maior do que a data inicial");
-                        break;
-                    }
+                    System.out.println("Insira a data final (EX: 01/01/2001): ");
+                    String dataFim = inputString.nextLine();
+
                     String relatorio = currOperador.getRelatorio(dataIni, dataFim);
                     System.out.println(relatorio);
                     break;
