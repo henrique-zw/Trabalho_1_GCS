@@ -4,8 +4,9 @@ import Entities.Morador;
 import Entities.Operador;
 import Populadores.PopuladorMoradores;
 import Populadores.PopuladorOperadores;
-
+import Utils.ManipuladorDeDatas;
 import java.util.InputMismatchException;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -91,12 +92,23 @@ public class App {
 
                     while (rg.length()!=10) {
                         System.out.println("O RG é composto por 10 dígitos.\nTente novamente:");
+
                         rg = inputString.nextLine();
                         inputString = new Scanner(System.in);
                     }
 
                     System.out.print("\nNumero apartamento: ");
-                    int ape = inputInt.nextInt();
+                    input = inputString.nextLine();
+                    int ape = 0;
+                    try{
+                        ape = Integer.parseInt(input);
+                        if(ape <= 0){
+                            throw new Exception();
+                        }
+                    } catch (Exception e){
+                        System.out.println("Apartamento nao localizado");
+                        break;
+                    }
 
                     Morador newMorador = new Morador(rg, nomeMorador, ape);
 
@@ -121,7 +133,6 @@ public class App {
                 case 5: // REGISTRAR NOVA ENTREGA
                     System.out.println("Informe o apartamento de destino da entrega:");
                     int aptoTemp;
-
                     try {
                         aptoTemp = inputInt.nextInt();
 
@@ -232,6 +243,20 @@ public class App {
                     String dataFim = inputString.nextLine();
                     inputString = new Scanner(System.in);
 
+                    String dataFim = "";
+                    while(dataFinal == null){
+                        try{
+                            System.out.println("Insira a data final (EX: 01/01/2001): ");
+                            dataFim = inputString.nextLine();
+                            dataFinal = ManipuladorDeDatas.StringToDate(dataFim);
+                        } catch (Exception e){
+                            System.out.println("Insira uma data final valida");
+                        }
+                    }
+                    if(dataFinal.before(dataInicial)) {
+                        System.out.println("Data final nao pode ser maior do que a data inicial");
+                        break;
+                    }
                     String relatorio = currOperador.getRelatorio(dataIni, dataFim);
                     System.out.println(relatorio);
 
