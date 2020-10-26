@@ -70,7 +70,9 @@ public class App {
                         nomeOperador = inputString.nextLine();
                         inputString = new Scanner(System.in);
                     }
-
+                    
+                    populadorOperadores.addOperador(nomeOperador);
+                    
                     break;
                 case 3: // INCLUIR MORADOR
                     System.out.print("\nNome completo do novo morador: ");
