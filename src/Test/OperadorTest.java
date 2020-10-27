@@ -57,7 +57,7 @@ public class OperadorTest {
             } else {
                 System.out.println(test + "Registro de Entrega: OK");
                 
-                Integer id = currOperador.getListaEntregas().getSize() - 1;
+                Integer id = currOperador.getListaEntregas().getSize();
                 
                 Entrega target = currOperador.getListaEntregas().getEntrega(id);
                 
