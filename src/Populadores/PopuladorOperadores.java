@@ -7,6 +7,7 @@ import Entities.Entrega;
 import Entities.Morador;
 import Entities.Operador;
 import java.util.Date;
+import static java.util.Objects.isNull;
 
 public class PopuladorOperadores {
     private final ListaOperadores listaOperadores;
@@ -50,8 +51,12 @@ public class PopuladorOperadores {
         String inicialDoPre = preVerificacao.getIniciais();
         Operador existe = listaOperadores.getOperador(inicialDoPre);
         if (existe == null) {
-            listaOperadores.addOperador(preVerificacao);
-            System.out.println("Operador Adicionado");
+            if (!isNull(inicialDoPre) && !isNull(preVerificacao.getNome())) {
+                listaOperadores.addOperador(preVerificacao);
+                System.out.println("Operador Adicionado."); 
+            } else {
+                System.out.println("Nome inválido.");
+            }
         } else {
             System.out.println("Ja existe um operador com as mesmas iniciais");
         }

@@ -3,6 +3,7 @@ package Colecoes;
 import Entities.Morador;
 import java.util.ArrayList;
 import java.util.List;
+import static java.util.Objects.isNull;
 
 public class ListaMoradores {
     private final List<Morador> listaMoradores;
@@ -13,8 +14,12 @@ public class ListaMoradores {
 
     public boolean addMorador(Morador morador){
         try {
-            listaMoradores.add(morador);
-            return true;
+            if (!isNull(morador) && !isNull(morador.getNome()) && !isNull(morador.getRegistoGeral())) {
+                listaMoradores.add(morador);
+                return true;
+            } else {
+                return false;
+            }
         }
         catch (Exception e){
             return false;
