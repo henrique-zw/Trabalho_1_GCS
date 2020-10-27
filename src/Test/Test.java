@@ -68,7 +68,7 @@ public class Test {
 
                     break;
                 case 5: // REGISTRAR NOVA ENTREGA
-                    //todo
+                    OperadorTest.registrarEntrega();
 
                     break;
                 case 6: // REGISTRAR RETIRADA DE PACOTE
@@ -76,7 +76,7 @@ public class Test {
 
                     break;
                 case 7: // PROCURAR ENTREGA VIA DESCRICAO
-                    //todo
+                    OperadorTest.procuraEntregaPorDescricao();
 
                     break;
                 case 8: // LISTAR ENTREGAS NAO RETIRADAS
