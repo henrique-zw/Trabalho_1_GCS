@@ -24,7 +24,10 @@ public class ListaEntregasTest {
                 System.out.println(test + "Retorno da string com listagem: FAIL");
             }
         } catch (Exception e) {
-            System.out.println(test + "ERROR\n" + e.getMessage() + "\n" + e.getStackTrace());
+            System.out.println(test + "ERROR\n" + e.getMessage());
+            for (StackTraceElement el: e.getStackTrace()) {
+                System.out.println(el.toString());
+            }
         }
     }
     

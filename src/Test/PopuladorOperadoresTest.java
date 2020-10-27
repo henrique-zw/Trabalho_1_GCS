@@ -33,7 +33,10 @@ public class PopuladorOperadoresTest {
                 System.out.println(test + "Teste com valor inválido: OK");
             }
         } catch (Exception e) {
-            System.out.println(test + "ERROR\n" + e.getMessage() + "\n" + e.getStackTrace());
+            System.out.println(test + "ERROR\n" + e.getMessage());
+            for (StackTraceElement el: e.getStackTrace()) {
+                System.out.println(el.toString());
+            }
         }
     }
 
@@ -50,15 +53,18 @@ public class PopuladorOperadoresTest {
                 System.out.println(test + "Teste com valor válido: FAIL");
             }
             
-            populadorOperadores.addOperador("");
-            target = populadorOperadores.getOperador("");
+            populadorOperadores.addOperador("Aristedes");
+            target = populadorOperadores.getOperador("A");
             if(target != null){
                 System.out.println(test + "Teste com valor inválido: FAIL");
             } else {
                 System.out.println(test + "Teste com valor inválido: OK");
             }
         } catch (Exception e) {
-            System.out.println(test + "ERROR\n" + e.getMessage() + "\n" + e.getStackTrace());
+            System.out.println(test + "ERROR\n" + e.getMessage());
+            for (StackTraceElement el: e.getStackTrace()) {
+                System.out.println(el.toString());
+            }
         }
     }
 }

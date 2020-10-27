@@ -1,3 +1,4 @@
+package Test;
 
 import Colecoes.ListaMoradores;
 import Entities.Operador;
@@ -31,7 +32,7 @@ public class Test {
         int op = 0;
 
         while (op >= 0) {
-            System.out.println("Tastar:\n\n" +
+            System.out.println("Testar:\n\n" +
                     "1) Escolher Operador\n" +
                     "2) Incluir Operador\n" +
                     "3) Incluir Morador\n" +
@@ -72,7 +73,7 @@ public class Test {
 
                     break;
                 case 6: // REGISTRAR RETIRADA DE PACOTE
-                    //todo
+                    OperadorTest.registrarRetiradaDePacote();
 
                     break;
                 case 7: // PROCURAR ENTREGA VIA DESCRICAO

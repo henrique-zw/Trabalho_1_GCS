@@ -18,7 +18,7 @@ public class PopuladorMoradoresTest {
         try {            
             ListaMoradores listaMoradores = Test.listaMoradores;
             
-            Morador newMorador = new Morador("00000012", "Maria Moradora", 99);
+            Morador newMorador = new Morador("0000000012", "Maria Moradora", 99);
 
             if(listaMoradores.addMorador(newMorador)){
                 System.out.println(test + "Teste com valor válido: OK");
@@ -26,7 +26,7 @@ public class PopuladorMoradoresTest {
                 System.out.println(test + "Teste com valor válido: FAIL");
             }
             
-            newMorador = new Morador("a0000012", "0ria Moradora", 0);
+            newMorador = new Morador("a000000012", "0ria Moradora", 0);
             
             if(listaMoradores.addMorador(newMorador)){
                 System.out.println(test + "Teste com valor inválido: FAIL");
@@ -34,7 +34,10 @@ public class PopuladorMoradoresTest {
                 System.out.println(test + "Teste com valor inválido: OK");
             }
         } catch (Exception e) {
-            System.out.println(test + "ERROR\n" + e.getMessage() + "\n" + e.getStackTrace());
+            System.out.println(test + "ERROR\n" + e.getMessage());
+            for (StackTraceElement el: e.getStackTrace()) {
+                System.out.println(el.toString());
+            }
         }
     }
 }
