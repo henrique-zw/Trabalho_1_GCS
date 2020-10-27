@@ -4,7 +4,9 @@ import Entities.Operador;
 import Populadores.PopuladorMoradores;
 import Populadores.PopuladorOperadores;
 import Test.ListaEntregasTest;
-import Test.ListaMoradoresTeste;
+import Test.ListaMoradoresTest;
+import Test.OperadorTest;
+import Test.PopuladorMoradoresTest;
 import Test.PopuladorOperadoresTest;
 import java.util.Scanner;
 
@@ -58,11 +60,11 @@ public class Test {
                     
                     break;
                 case 3: // INCLUIR MORADOR
-                    //todo
+                    PopuladorMoradoresTest.incluirMorador();
 
                     break;
                 case 4: // LISTAR MORADORES
-                    ListaMoradoresTeste.listarMoradores();
+                    ListaMoradoresTest.listarMoradores();
 
                     break;
                 case 5: // REGISTRAR NOVA ENTREGA
@@ -82,7 +84,7 @@ public class Test {
                     
                     break;
                 case 9: // GERAR RELATÓRIO
-                    //todo
+                    OperadorTest.gerarRelatorio();
 
                     break;
                 default:

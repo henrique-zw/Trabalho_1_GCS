@@ -11,7 +11,7 @@ import Colecoes.ListaMoradores;
  *
  * @author johnb
  */
-public class ListaMoradoresTeste {
+public class ListaMoradoresTest {    
     public static void listarMoradores() {
         String test = "Listar Moradores - ";
         try {
